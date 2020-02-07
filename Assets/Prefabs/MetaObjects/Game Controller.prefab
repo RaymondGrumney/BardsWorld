@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1965533920597354}
+  m_IsPrefabParent: 1
+--- !u!1 &1965533920597354
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4110609142184616}
+  - component: {fileID: 114799693850137032}
+  m_Layer: 0
+  m_Name: Game Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4110609142184616
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1965533920597354}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 100.71066, y: 34.81299, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114799693850137032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1965533920597354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 472763f2b2b59be439c8e1c0b3ddc91b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players:
+  - playerNum: 1
+    isActive: 1
+    camera: {fileID: 0}
+    cameraController: {fileID: 0}
+    currentCharacter: 0
+    horizontal: 0
+    vertical: 0
+    actionPressed: 0
+    actionHeld: 0
+    actionReleased: 0
+    action2Down: 0
+    select: 0
+    start: 0
+    exit: 0
+  - playerNum: 2
+    isActive: 0
+    camera: {fileID: 0}
+    cameraController: {fileID: 0}
+    currentCharacter: 0
+    horizontal: 0
+    vertical: 0
+    actionPressed: 0
+    actionHeld: 0
+    actionReleased: 0
+    action2Down: 0
+    select: 0
+    start: 0
+    exit: 0
+  playerCharacters:
+  - {fileID: 0}
+  - {fileID: 0}
+  startingEvent: {fileID: 0}
+  messageWindow: {fileID: 0}
+  messageSpeed: 0
+  messageNextIcon: {fileID: 0}
+  messageFadeInOut: 0.5
