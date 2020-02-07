@@ -1,0 +1,13 @@
+*.psd
+*.meta
+*.unity
+*.userprefs
+
+# dirs we shouldn't commit
+WinProto/
+WebGLBuild/
+ProjectSettings/
+obj/
+Library/
+Temp/
+.vs/
