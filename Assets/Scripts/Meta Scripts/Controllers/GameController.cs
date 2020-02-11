@@ -15,15 +15,6 @@ public class GameController : MonoBehaviour {
 
 	// Data about players
 
-//	[Tooltip("The player controllers.")]
-//	public GameObject[] playersObj;
-
-	private Player[] _players;
-
-	public Player[] players{
-		get { return _players; }
-	}
-
 	[Tooltip("The background music for this level.")]
 	/// <summary>
 	/// The background music for this level.
@@ -76,13 +67,11 @@ public class GameController : MonoBehaviour {
 
 		initializeCharacterArray();
 
-		initializePlayerArray();
 	}
 
 	// After initialization, assign relationships
 	void Start() {
 		
-		readyPlayerOne();
 	}
 
 	// Update is called once per frame
@@ -90,18 +79,10 @@ public class GameController : MonoBehaviour {
 
 
 		// check if quit
-		if (Input.GetButtonDown( "Quit" )) {
-			SceneManager.LoadScene( "Outro" );
+		if (Input.GetButtonDown("Quit"))
+		{
+			SceneManager.LoadScene("Outro");
 		}
-
-
-		// get input for all players to be made accessable by controlled characters
-		checkCharacterSwap();
-
-
-		// look for players dropping in / out
-		playersDropInOut();
-
 
 		// run the current event
 		runEvent();
@@ -112,37 +93,6 @@ public class GameController : MonoBehaviour {
 	void FixedUpdate() {
 		
 	}
-
-	/// <summary>
-	/// Initializes the player array.
-	/// </summary>
-	void initializePlayerArray(){
-		_players = GetComponents<Player>();
-
-		for(int i = 0; i < _players.Length; i++) {
-			_players[ i ].cameraController = cameras[ i ].GetComponent<CameraController>();
-		}
-	}
-
-
-	/// <summary>
-	/// Readies the player one.
-	/// </summary>
-	void readyPlayerOne()
-	{
-		if (_players.Length > 0 && _characters.Length > 0) {
-			
-			Player player1 = _players[ 0 ];
-
-			// activate the first player
-			player1.isActive = true;
-
-			// activate the first character
-		
-			activateCharacter( 0, player1 );
-		}
-	}
-
 
 	/// <summary>
 	/// Initializes the character array and populates it with the characters.
@@ -223,26 +173,6 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-
-	/// <summary>
-	/// Gets the input for all active players.
-	/// </summary>
-	void checkCharacterSwap()
-	{
-		for( int i = 0; i < _characters.Length; i++ ) {
-			Player p = _players[ i ];
-
-			// assign inputs
-			if (p.isActive) {
-				// swap between characters
-				if (p.swapLeft || p.swapRight) {
-					if (currentNumPlayers < _characters.Length) {
-						seekNextCharacter( p ); // TODO: seek left or right
-					}
-				}
-			}
-		}
-	}
 
 	/// <summary>
 	/// Check if players are dropping in or out
@@ -418,9 +348,7 @@ public class GameController : MonoBehaviour {
 //		Debug.Log("activateCharacter c.controllingPlayer: " + c.controllingPlayer);
 
 		// assign player to character and vice versa
-		c.controllingPlayer = player;
-		player.currentCharacter = characterNum;
-
+		
 //		Debug.Log("activateCharacter c.controllingPlayer: " + c.controllingPlayer);
 
 		// show the life display for the character

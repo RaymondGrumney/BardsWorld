@@ -71,22 +71,6 @@ public class GameEventTrigger : MonoBehaviour {
 		if (!triggered || canBeRetriggered) {
 			if (other.tag == "Player") {
 				
-
-				// add players to events
-				if (controlledByAllPlayers) {
-
-					// add all players
-					foreach( Player p in _gameController.players ) {
-						gameEvent.addPlayer( p );
-					}
-
-				} else {
-
-					// add only the player whose character triggered this event
-					gameEvent.addPlayer( other.GetComponent<Character>().controllingPlayer );
-				}
-
-
 				// set event in game controller
 				triggered = _gameController.setEvent( gameEvent );
 			}

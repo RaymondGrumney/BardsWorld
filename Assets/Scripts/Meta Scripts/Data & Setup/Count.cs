@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// A count of any given MonoBehavior.
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class Count {
 
 	/// <summary>

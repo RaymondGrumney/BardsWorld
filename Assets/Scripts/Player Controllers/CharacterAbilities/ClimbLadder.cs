@@ -77,7 +77,7 @@ public class ClimbLadder : MonoBehaviour {
 				_rigidbody.gravityScale = 0;
 				_character.animator.SetBool( "Climbing", true );
 
-				float v = _character.controllingPlayer.vertical;
+				float v = Joypad.Read.Buttons.vertical;
 				_rigidbody.velocity = new Vector2( _rigidbody.velocity.x, v * climbSpeed );
 			}
 		} else {
@@ -144,6 +144,6 @@ public class ClimbLadder : MonoBehaviour {
 	}
 
 	bool verticalInput() {
-		return Mathf.Abs( _character.controllingPlayer.vertical ) > 0.1f ;
+		return Mathf.Abs( Joypad.Read.Buttons.vertical ) > 0.1f ;
 	}
 }

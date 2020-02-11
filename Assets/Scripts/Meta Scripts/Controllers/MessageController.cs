@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine;	
+using UnityEngine.UIElements;
 
 public class MessageController : MonoBehaviour {
 
@@ -48,7 +48,7 @@ public class MessageController : MonoBehaviour {
 	/// <summary>
 	/// The text of the message window.
 	/// </summary>
-	private Text _messageText;
+	private TextElement _messageText;
 
 	/// <summary>
 	/// What Time.time to stop showing the message
@@ -150,10 +150,10 @@ public class MessageController : MonoBehaviour {
 	/// </summary>
 	void getMessageComponents()
 	{
-		_messageText = GetComponentInChildren<Text>();
-		_messageImageColor = messageWindowImage.color;
-		_messageTextColor = _messageText.color;
-		_messagePortraitColor = messageCharacterPortrait.color;
+		_messageText = GetComponentInChildren<TextElement>();
+		_messageImageColor = messageWindowImage.style.color.value;
+		_messageTextColor = _messageText.style.color.value;
+		_messagePortraitColor = messageCharacterPortrait.style.color.value;
 	}	
 
 
@@ -192,7 +192,7 @@ public class MessageController : MonoBehaviour {
 			_messageCurrentChar = -1;
 
 			if (characterPortrait != null) {
-				messageCharacterPortrait.sprite = characterPortrait;
+				messageCharacterPortrait.image = characterPortrait.texture;
 			}
 
 			showMessage( parseText( text ), messageStandardDisplayTime );  
@@ -242,7 +242,8 @@ public class MessageController : MonoBehaviour {
 			//			_messageCurrentChar = 0;
 
 			if (dialog.characterPortrait != null) {
-				messageCharacterPortrait.sprite = dialog.characterPortrait;
+				// TODO: not sure that Texture and Texture2D are ACTUALLY compatible
+				messageCharacterPortrait.image = dialog.characterPortrait.texture;
 			}
 
 			showMessage( parseText( dialog.line ), messageStandardDisplayTime );
@@ -417,9 +418,9 @@ public class MessageController : MonoBehaviour {
 		Color newWindowImageColor = new Color( _messageImageColor.r, _messageImageColor.g, _messageImageColor.b, _messageAlpha );
 		Color newCharacterPortraitColor = new Color( _messageImageColor.r, _messageImageColor.g, _messageImageColor.b, _messageAlpha );
 
-		_messageText.color = newTextColor;
-		messageWindowImage.color = newWindowImageColor;
-		messageCharacterPortrait.color = newCharacterPortraitColor;
+		_messageText.style.color = newTextColor;
+		messageWindowImage.style.color = newWindowImageColor;
+		messageCharacterPortrait.style.color = newCharacterPortraitColor;
 	}
 
 	/// <summary>

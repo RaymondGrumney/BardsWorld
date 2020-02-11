@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class MenuController : MonoBehaviour {
 
@@ -57,12 +57,7 @@ public class MenuController : MonoBehaviour {
 	/// <summary>
 	/// The text element of the current menu item.
 	/// </summary>
-	private Text _currentItemText;
-
-	/// <summary>
-	/// The player in control of the menu
-	/// </summary>
-	protected Player _controllingPlayer;
+	private TextElement _currentItemText;
 
 	/// <summary>
 	/// If currently allowing directional input.
@@ -85,7 +80,7 @@ public class MenuController : MonoBehaviour {
 	/// <value><c>true</c> if user pressing direction; otherwise, <c>false</c>.</value>
 	private bool userPressingDirection {
 		get {
-			return Mathf.Abs( _controllingPlayer.vertical ) > 0.1f || Mathf.Abs( _controllingPlayer.horizontal ) > 0.1f;
+			return Mathf.Abs(Joypad.Read.Buttons.vertical) > 0.1f || Mathf.Abs(Joypad.Read.Buttons.horizontal ) > 0.1f;
 		}
 	}
 
@@ -108,11 +103,11 @@ public class MenuController : MonoBehaviour {
 		_isActive = true;
 
 		foreach( Image i in transform.parent.GetComponentsInChildren<Image>() ) {
-			i.color = new Color(i.color.r, i.color.g, i.color.b, 1f);
+			i.tintColor = new Color(i.tintColor.r, i.tintColor.g, i.tintColor.b, 1f);
 		}
 
-		foreach( Text t in transform.parent.GetComponentsInChildren<Text>() ) {
-			t.color = new Color(t.color.r, t.color.g, t.color.b, 1f);
+		foreach( TextElement t in transform.parent.GetComponentsInChildren<TextElement>() ) {
+			t.style.color = new Color(t.style.color.value.r, t.style.color.value.g, t.style.color.value.b, 1f);
 		}
 	}
 
@@ -122,7 +117,6 @@ public class MenuController : MonoBehaviour {
 
 	// set to starting state
 	void Start() {
-		_controllingPlayer = GameObject.Find("Game Controller").GetComponent<GameController>().players[0];
 
 //		_controllingPlayer.isActive = true;
 
@@ -137,14 +131,14 @@ public class MenuController : MonoBehaviour {
 		float colorCycle = Mathf.Abs( MyUtilities.Oscillation( colorCycleDifference, 1 / colorCycleSpeed, 0, Time.time ) );
 
 		// cycle colors
-		_currentItemText.color = selectedColor + ( colorDifference  * colorCycle );
+		_currentItemText.style.color = selectedColor + ( colorDifference  * colorCycle );
 
 		// move up / down
 		if( _isActive && _allowDirectionalInput && userPressingDirection ) {
 			// add or subtract based on sign of horizontal 
-			menuItems[ _currentSelection ].GetComponent<Text>().color = _defaultColor;
+			menuItems[ _currentSelection ].GetComponent<TextElement>().style.color = _defaultColor;
 
-			_currentSelection = (int) ( ( _currentSelection - (int) Mathf.Sign(_controllingPlayer.vertical) ) % menuItems.Length );
+			_currentSelection = (int) ( ( _currentSelection - (int) Mathf.Sign(Joypad.Read.Buttons.vertical) ) % menuItems.Length );
 
 			// cycle through if negative
 			if (_currentSelection == -1) {
@@ -162,11 +156,11 @@ public class MenuController : MonoBehaviour {
 
 
 		// pause directional input if holding direction
-		_allowDirectionalInput = !( Mathf.Abs( _controllingPlayer.horizontal ) > 0.1f || Mathf.Abs( _controllingPlayer.vertical ) > 0.1f);
+		_allowDirectionalInput = !( Mathf.Abs(Joypad.Read.Buttons.horizontal ) > 0.1f || Mathf.Abs(Joypad.Read.Buttons.vertical ) > 0.1f);
 
 
 		// when press action, do the thing of the current menu item
-		if (_controllingPlayer.actionPressed) {
+		if (Joypad.Read.Buttons.menuConfirm) {
 			
 			playSound(selectSound);
 
@@ -184,10 +178,10 @@ public class MenuController : MonoBehaviour {
 	/// Updates the selection.
 	/// </summary>
 	void updateSelection() {
-		_currentItemText = menuItems[ _currentSelection ].GetComponent<Text>();
+		_currentItemText = menuItems[ _currentSelection ].GetComponent<TextElement>();
 
-		_defaultColor = _currentItemText.color;
-		_currentItemText.color = selectedColor;
+		_defaultColor = _currentItemText.style.color.value;
+		_currentItemText.style.color = selectedColor;
 
 		playSound(moveSound);
 	}

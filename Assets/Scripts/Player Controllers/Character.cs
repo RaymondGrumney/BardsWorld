@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// A character object, concerned with moving the character and other user input.
@@ -18,14 +17,6 @@ public class Character : Moveable {
 	/// </summary>
 	/// <value><c>true</c> if is swimin; otherwise, <c>false</c>.</value>
 	public bool isSwimming { set; get; }
-
-
-
-	/// <summary>
-	/// The Player currently controlling this character.
-	/// </summary>
-	[Tooltip("The Player currently controlling this character.")]
-	public Player controllingPlayer;
 
 
 	[Header("Movement")]
@@ -178,7 +169,7 @@ public class Character : Moveable {
 		moveSpeed.y += _rigidbody.velocity.y;
 
 		if (inputCheck() && _canMove) {
-			float h = controllingPlayer.horizontal;
+			float h = Joypad.Read.Buttons.horizontal;
 
 			// if the value on the horizontal axis is +/- 0.1
 			if (Mathf.Abs( h ) > 0.1f) {

@@ -104,7 +104,7 @@ public class ThrowCarried : GrabAndCarry {
 		if ( _character.inputCheck() ) {
 
 			// attempt to pick up objects
-			if ( _character.controllingPlayer.actionPressed && _carriedObject == null) {
+			if ( Joypad.Read.Buttons.Held("throw") && _carriedObject == null) {
 
 				GameObject target = getTarget();
 
@@ -120,7 +120,8 @@ public class ThrowCarried : GrabAndCarry {
 
 			// check if the player has released the action button from picking up an object
 			if ( ! _canThrow && _carriedObject ) {
-				_canThrow = _character.controllingPlayer.actionReleased;
+				_canThrow = Joypad.Read.Buttons.Released("throw");
+
 			} 
 		}
 
@@ -140,7 +141,7 @@ public class ThrowCarried : GrabAndCarry {
 			if ( canThrowWhileJumping || _character.grounded ) {
 				
 				// when the player releases the action button
-				if (_character.controllingPlayer.actionReleased) {
+				if (Joypad.Read.Buttons.Released("action")) {
 
 					// drop item if we didn't hold for throw
 					if (actionHeldTime < timeActionHeldToThrow) {
@@ -159,7 +160,7 @@ public class ThrowCarried : GrabAndCarry {
 					_currentThrowForce = throwForce;
 
 				// otherwise if the player is holding the action button
-				} else if (_character.controllingPlayer.actionHeld) {
+				} else if (Joypad.Read.Buttons.Held("action")) {
 
 					// if the player has held the action button long enough and is grounded
 					if (actionHeldTime > timeActionHeldToThrow && _character.grounded) {
@@ -177,7 +178,7 @@ public class ThrowCarried : GrabAndCarry {
 	/// </summary>
 	void countHowLongActionHeld()
 	{
-		if ( _character.controllingPlayer.actionHeld ) {
+		if ( Joypad.Read.Buttons.Held("throw") ) {
 			// tally how long player has held action
 			actionHeldTime += Time.deltaTime;
 		} else {
@@ -281,8 +282,8 @@ public class ThrowCarried : GrabAndCarry {
 	/// </summary>
 	void adjustAngle() {
 		// adjust by player input
-		_currentThrowAngle -= _character.controllingPlayer.horizontal * angleAdjustSpeed * _character.facing.x;
+		_currentThrowAngle -= Joypad.Read.Buttons.horizontal * angleAdjustSpeed * _character.facing.x;
 
-		_currentThrowAngle += _character.controllingPlayer.vertical * angleAdjustSpeed * _character.facing.x;
+		_currentThrowAngle += Joypad.Read.Buttons.vertical * angleAdjustSpeed * _character.facing.x;
 	}
 }

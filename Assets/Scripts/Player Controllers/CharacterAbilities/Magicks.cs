@@ -21,8 +21,8 @@ public class Magicks : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (_character.controllingPlayer.powerButtonPressed) {
-			//		if (_character.controllingPlayer.powerButtonHeld) {
+		if (Joypad.Read.Buttons.magic) {
+			//		if (Joypad.Read.Buttons.powerButtonHeld) {
 			getCurrentPower().castSpell();
 		}
 
@@ -36,7 +36,7 @@ public class Magicks : MonoBehaviour {
 	void checkSwap()
 	{
 		//if (Input.GetKeyDown("P1NextPower")) {
-		if (_character.controllingPlayer.nextPower) {
+		if (Joypad.Read.Buttons.Held("swapMagic")) {
 
 			currentPower++;
 

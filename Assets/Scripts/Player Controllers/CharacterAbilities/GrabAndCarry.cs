@@ -85,7 +85,7 @@ public class GrabAndCarry : MonoBehaviour {
 	protected virtual void LateUpdate() {
 
 		// attempt to pick up objects
-		if ( _character.inputCheck() && _character.controllingPlayer.actionPressed ) {
+		if ( _character.inputCheck() && Joypad.Read.Buttons.Held("pickup") ) {
 			
 			// if not carrying an object
 			if (_carriedObject == null) {
@@ -181,7 +181,7 @@ public class GrabAndCarry : MonoBehaviour {
 
 		if (_carriedObject) {
 
-			_carriedObjectSpriteRenderer.flipX = _character.controllingPlayer.horizontal < -0.1f;
+			_carriedObjectSpriteRenderer.flipX = Joypad.Read.Buttons.horizontal < -0.1f;
 
 			checkXFlip();
 

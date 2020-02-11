@@ -270,8 +270,8 @@ public class Blob : Character {
 					_animator.SetBool( "Grounded", false );
 				}
 
-				_moveVector += ( new Vector2( controllingPlayer.horizontal  * maxSpeed, controllingPlayer.vertical * _climbLadder.climbSpeed ) );
-//				_rigidbody.velocity = _moveVector + new Vector2( controllingPlayer.horizontal  * maxSpeed, controllingPlayer.vertical * _climbLadder.climbSpeed );
+				_moveVector += ( new Vector2( Joypad.Read.Buttons.horizontal  * maxSpeed, Joypad.Read.Buttons.vertical * _climbLadder.climbSpeed ) );
+//				_rigidbody.velocity = _moveVector + new Vector2( Joypad.Read.Buttons.horizontal  * maxSpeed, Joypad.Read.Buttons.vertical * _climbLadder.climbSpeed );
 //				_moveVector = Vector2.zero;
 
 			} else {
@@ -316,11 +316,11 @@ public class Blob : Character {
 			    || myAngle >= 135 && myAngle <= 225) {
 
 				// return the vertical axis
-				return controllingPlayer.vertical * multiplier;
+				return Joypad.Read.Buttons.vertical * multiplier;
 			} else {
 				// return the vertical axis
 
-				return controllingPlayer.horizontal * multiplier;
+				return Joypad.Read.Buttons.horizontal * multiplier;
 			}
 		} else {
 			return 0;
@@ -356,11 +356,11 @@ public class Blob : Character {
 	/// Checks if stick player is attempting to stick or detach to/from a surface
 	/// </summary>
 	void stickOnCommand() {
-		float h = controllingPlayer.horizontal;		// the horizontal axis
-		float v = controllingPlayer.vertical;		// the vertical axis
+		float h = Joypad.Read.Buttons.horizontal;		// the horizontal axis
+		float v = Joypad.Read.Buttons.vertical;		// the vertical axis
 
 		// use jump to stick to walls / ceilings
-		if( controllingPlayer.action2Down ) {
+		if( Joypad.Read.Buttons.jump ) {
 			if (Mathf.Abs( h ) > 0.3f || Mathf.Abs( v ) > 0.3f) {
 				stickForward();
 			} else if( MyUtilities.Between( MyUtilities.AngleInDegrees( -_myDown ), 180, 360) ) {
@@ -484,8 +484,8 @@ public class Blob : Character {
 	void stickForward() {
 
 		// current input
-		float h = controllingPlayer.horizontal;						// horizontal axis input
-		float v = controllingPlayer.vertical;						// vertical axis input
+		float h = Joypad.Read.Buttons.horizontal;						// horizontal axis input
+		float v = Joypad.Read.Buttons.vertical;						// vertical axis input
 
 		Vector2 castDirection = new Vector2( h, v );
 
