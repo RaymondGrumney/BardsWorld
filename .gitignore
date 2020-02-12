@@ -1,6 +1,6 @@
 *.psd
 *.meta
-*.unity
+# *.unity
 *.userprefs
 
 # dirs we shouldn't commit
