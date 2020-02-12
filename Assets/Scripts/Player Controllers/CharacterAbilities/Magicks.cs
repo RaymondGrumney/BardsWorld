@@ -21,7 +21,7 @@ public class Magicks : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (Joypad.Read.Buttons.magic) {
+		if (Joypad.Read.Buttons.Pressed("magic")) {
 			//		if (Joypad.Read.Buttons.powerButtonHeld) {
 			getCurrentPower().castSpell();
 		}

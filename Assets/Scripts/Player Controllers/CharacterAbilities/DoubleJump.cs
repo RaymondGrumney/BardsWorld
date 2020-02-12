@@ -27,7 +27,7 @@ public class DoubleJump : MakesNoise {
 	// Update is called once per frame
 	void Update () {
 		
-		if ( !_character.grounded && !_doubleJumped  && Joypad.Read.Buttons.jump ) {
+		if ( !_character.grounded && !_doubleJumped  && Joypad.Read.Buttons.Pressed("jump") ) {
 			// can't double jump if carrying an object
 			if (_grabAndCarry) {
 				if( !_grabAndCarry.carrying) {

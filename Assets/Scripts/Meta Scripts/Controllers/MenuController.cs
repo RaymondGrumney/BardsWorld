@@ -79,9 +79,11 @@ public class MenuController : MonoBehaviour {
 	/// </summary>
 	/// <value><c>true</c> if user pressing direction; otherwise, <c>false</c>.</value>
 	private bool userPressingDirection {
-		get {
-			return Mathf.Abs(Joypad.Read.Buttons.vertical) > 0.1f || Mathf.Abs(Joypad.Read.Buttons.horizontal ) > 0.1f;
-		}
+		get => Joypad.Read.Buttons.Held("left")
+			   || Joypad.Read.Buttons.Held("right")
+			   || Joypad.Read.Buttons.Held("up")
+			   || Joypad.Read.Buttons.Held("down");
+			//return Mathf.Abs(Joypad.Read.Buttons.vertical) > 0.1f || Mathf.Abs(Joypad.Read.Buttons.horizontal ) > 0.1f;
 	}
 
 	/// <summary>
@@ -138,7 +140,19 @@ public class MenuController : MonoBehaviour {
 			// add or subtract based on sign of horizontal 
 			menuItems[ _currentSelection ].GetComponent<TextElement>().style.color = _defaultColor;
 
-			_currentSelection = (int) ( ( _currentSelection - (int) Mathf.Sign(Joypad.Read.Buttons.vertical) ) % menuItems.Length );
+			int move = 0;
+
+			if (Joypad.Read.Buttons.Pressed("up"))
+			{
+				move = 1;
+			}
+			else if (Joypad.Read.Buttons.Pressed("down"))
+			{
+				move = -1;
+			}
+
+			_currentSelection = (int) ( ( _currentSelection + move ) % menuItems.Length );
+			//_currentSelection = (int) ( ( _currentSelection - (int) Mathf.Sign(Joypad.Read.Buttons.vertical) ) % menuItems.Length );
 
 			// cycle through if negative
 			if (_currentSelection == -1) {
@@ -156,11 +170,11 @@ public class MenuController : MonoBehaviour {
 
 
 		// pause directional input if holding direction
-		_allowDirectionalInput = !( Mathf.Abs(Joypad.Read.Buttons.horizontal ) > 0.1f || Mathf.Abs(Joypad.Read.Buttons.vertical ) > 0.1f);
+		_allowDirectionalInput = !( Joypad.Read.Buttons.Held("up") || Joypad.Read.Buttons.Held("down"));
 
 
 		// when press action, do the thing of the current menu item
-		if (Joypad.Read.Buttons.menuConfirm) {
+		if (Joypad.Read.Buttons.Pressed("menuConfirm")) {
 			
 			playSound(selectSound);
 

@@ -24,7 +24,7 @@ public class Jump : MakesNoise {
 		// checks if the character is accepting input and can move
 		if ( _character.inputCheck() && _character.canMove ) {
 			// checks if the character is grounded and if the player has pressed jump
-			if( Joypad.Read.Buttons.jump && _character.grounded ){
+			if( Joypad.Read.Buttons.Pressed("jump") && _character.grounded ){
 				jump();
 			}
 		}

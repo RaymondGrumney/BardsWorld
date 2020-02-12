@@ -25,7 +25,7 @@ public class Character : Moveable {
 	/// </summary>
 	[Tooltip("This character's maximum speed.")]
 	public float maxSpeed = 3;
-
+	public float horizontal;
 
 	/// <summary>
 	/// The standard control timeout length (on attack, etc).
@@ -155,7 +155,7 @@ public class Character : Moveable {
 
 	// Actions 
 	protected void standardUpdateActions() {
-		
+		horizontal = Joypad.Read.Buttons.horizontal;
 	}
 
 

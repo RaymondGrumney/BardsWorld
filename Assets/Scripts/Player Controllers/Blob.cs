@@ -360,7 +360,7 @@ public class Blob : Character {
 		float v = Joypad.Read.Buttons.vertical;		// the vertical axis
 
 		// use jump to stick to walls / ceilings
-		if( Joypad.Read.Buttons.jump ) {
+		if( Joypad.Read.Buttons.Pressed("jump") ) {
 			if (Mathf.Abs( h ) > 0.3f || Mathf.Abs( v ) > 0.3f) {
 				stickForward();
 			} else if( MyUtilities.Between( MyUtilities.AngleInDegrees( -_myDown ), 180, 360) ) {

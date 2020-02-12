@@ -133,8 +133,6 @@ public class ClimbLadder : MonoBehaviour {
 	}
 
 	void OnTriggerExit2D(Collider2D other) {
-		
-		Debug.Log( "EXIT: " + other.gameObject );
 
 		LadderZone ladder = other.GetComponent<LadderZone>();
 
@@ -143,7 +141,6 @@ public class ClimbLadder : MonoBehaviour {
 		}
 	}
 
-	bool verticalInput() {
-		return Mathf.Abs( Joypad.Read.Buttons.vertical ) > 0.1f ;
-	}
+	bool verticalInput()
+		=> Joypad.Read.Buttons.Held("vertical");
 }
