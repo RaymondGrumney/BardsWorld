@@ -15,19 +15,19 @@ public class ThrowableDamage : DealsDamage {
 		_rigidbody = GetComponentInParent<Rigidbody2D>();
 	}
 
-	protected override void OnCollisionEnter2D(Collision2D other)
-	{
-		if ( hitCheck( other.gameObject ) ) {
-			base.OnCollisionEnter2D( other );
-		}
-	}
+	//protected override void OnCollisionEnter2D(Collision2D other)
+	//{
+	//	if ( hitCheck( other.gameObject ) ) {
+	//		base.OnCollisionEnter2D( other );
+	//	}
+	//}
 
-	protected override void OnTriggerEnter2D(Collider2D other)
-	{
-		if ( hitCheck( other.gameObject ) ) {
-			base.OnTriggerEnter2D( other );
-		}
-	}
+	//protected override void OnTriggerEnter2D(Collider2D other)
+	//{
+	//	if ( hitCheck( other.gameObject ) ) {
+	//		base.OnTriggerEnter2D( other );
+	//	}
+	//}
 
 	private bool hitCheck(GameObject other) {
 
