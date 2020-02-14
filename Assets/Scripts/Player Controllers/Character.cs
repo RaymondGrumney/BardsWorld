@@ -17,7 +17,7 @@ public class Character : Moveable {
 	/// </summary>
 	/// <value><c>true</c> if is swimin; otherwise, <c>false</c>.</value>
 	public bool isSwimming { set; get; }
-
+	
 
 	[Header("Movement")]
 	/// <summary>
@@ -60,9 +60,9 @@ public class Character : Moveable {
 	/// <summary>
 	/// Whether the caracter is currently allowed to move.
 	/// </summary>
-	public bool canMove{
-		get{ return _canMove; }
-		set{ _canMove = value; }
+	public bool CanMove{
+		get => _canMove;
+		set => _canMove = value; 
 	}
 
 
@@ -78,7 +78,7 @@ public class Character : Moveable {
 	/// </summary>
 	protected Animator _animator;						// this character's animator
 
-	public Animator animator {
+	public Animator Animator {
 		get{ return _animator; }
 	}
 
@@ -169,19 +169,27 @@ public class Character : Moveable {
 		moveSpeed.y += _rigidbody.velocity.y;
 
 		if (inputCheck() && _canMove) {
+			
 			float h = Joypad.Read.Buttons.horizontal;
 
 			// if the value on the horizontal axis is +/- 0.1
-			if (Mathf.Abs( h ) > 0.1f) {
-
+			if (Mathf.Abs( h ) > 0.1f)
+			{
 				// update facing
 				_facing = new Vector2( Mathf.Ceil( h ), 0 );
 
 				// move the character
 				moveSpeed.x += h * maxSpeed;
-					
+
 				// flip the sprite if moving leftward
-				_spriteRenderer.flipX = h < 0.1f;
+				//_spriteRenderer.flipX = h < 0.1f;
+
+				float x = 0f;
+				float y = 90f + (90f * -_facing.x);
+				float z = 0f;
+
+				gameObject.transform.rotation = Quaternion.Euler(x, y, z);
+				
 			} else {
 				// stop horizontal movement if the player is not moving the character
 //				stop();
@@ -190,23 +198,19 @@ public class Character : Moveable {
 			// set Params of animator
 			_animator.SetFloat( "Speed", Mathf.Abs( h ) );
 		} else {
-			//NOTE: should this be uncommented? to let blowers blow?
-
 			// set Params of animator
 			_animator.SetFloat( "Speed", 0 );
 		}
 
-		// move the character and reset _moveVector
+		// move the character
+		////_rigidbody.velocity = moveSpeed;
 		_rigidbody.velocity = moveSpeed;
-//		_moveVector = Vector2.zero;
-
-//		_moveVector += moveSpeed;
 	}
 
 
 	// checks current acctions (currently this is handled by individual scripts
 	private void checkActions() {
-
+		
 	}
 
 	/// <summary>
@@ -253,13 +257,12 @@ public class Character : Moveable {
 		}
 	}
 
+	//protected override void MoveByVector()
+	//{
+	//	// modify velocity
+	//	_rigidbody.velocity += _moveVector;
 
-	protected override void MoveByVector(){
-
-		// modify velocity
-		_rigidbody.velocity += _moveVector;
-
-		// reset vector to 0
-		_moveVector = Vector2.zero;
-	}
+	//	// reset vector to 0
+	//	_moveVector = Vector2.zero;
+	//}
 }
