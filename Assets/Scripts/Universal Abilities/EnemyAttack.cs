@@ -5,20 +5,20 @@ using UnityEngine;
 /// <summary>
 /// An attack. Can be used on enemies (using a trigger), or on characters ( will need to call to performAttack() ).
 /// </summary>
-public class Attack : MonoBehaviour {
+public class EnemyAttack : MonoBehaviour {
 
 	[Tooltip("The projectile / damage object.")]
 	public GameObject attackObject;
+
 	[Tooltip("Where the attack spawns.")]
 	public GameObject spawnPoint;
 	protected Collider2D _spawnPoint;
-	// the position of the parent object
-//	protected Vector3 _parentPosition;
-
+	
 	[Tooltip("The amount of time between attacks (in seconds).")]
 	public float attackCooldown = 0.5f;
+	
 	// when we can next perform an attack
-	protected float nextAttack;
+	protected float nextAttack = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -35,7 +35,6 @@ public class Attack : MonoBehaviour {
 
 	// When the player enters the trigger
 	void OnTriggerStay2D(Collider2D other) {
-
 		if (other.tag == "Player" && nextAttack < Time.time) {
 			performAttack( other.bounds.center );
 		}
