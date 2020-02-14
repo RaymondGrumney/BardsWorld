@@ -133,7 +133,7 @@ public class TakesDamage : MonoBehaviour {
 	private void death() {
 
 		// reload this scene
-		SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex );
+		//SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex );
 
 		
 		// spawn SpawnOnImpact object

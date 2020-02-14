@@ -33,7 +33,8 @@ public class Moveable : MonoBehaviour {
 	protected virtual void MoveByVector(){
 
 		// modify velocity
-		_rigidbody.velocity = new Vector2( _moveVector.x, _rigidbody.velocity.y);
+		_rigidbody.velocity += _moveVector;
+		Debug.Log(_moveVector);
 
 		// reset vector to 0
 		_moveVector = Vector2.zero;
@@ -47,5 +48,10 @@ public class Moveable : MonoBehaviour {
 	public Vector2 moveVector {
 		set{ _moveVector = value; }
 		get{ return _moveVector; }
+	}
+
+	public void AddVector(Vector2 vector)
+	{
+		_moveVector += vector;
 	}
 }
