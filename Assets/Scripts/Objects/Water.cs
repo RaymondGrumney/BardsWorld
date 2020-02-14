@@ -66,7 +66,7 @@ public class Water : MonoBehaviour {
 		Character character = other.GetComponent<Character>();
 
 		if (character) {
-			character.animator.SetBool( "inWater", true );
+			character.Animator.SetBool( "inWater", true );
 //			character.grounded = false;
 			character.maxSpeed *= waterSpeedMultiplier;
 		}
@@ -86,7 +86,7 @@ public class Water : MonoBehaviour {
 		Character character = other.GetComponent<Character>();
 
 		if (character) {
-			character.animator.SetBool( "inWater", false );
+			character.Animator.SetBool( "inWater", false );
 			character.maxSpeed /= waterSpeedMultiplier;
 		}
 	}
@@ -136,13 +136,13 @@ public class Water : MonoBehaviour {
 			if (character) {
 				if (!character.isSwimming && depth > other.bounds.extents.y) {
 					character.isSwimming = true;
-					character.animator.SetBool( "inWater", true );
+					character.Animator.SetBool( "inWater", true );
 					character.grounded = false;
 				} 
 
 				if(character.isSwimming && depth < other.bounds.extents.y) {
 					character.isSwimming = false;
-					character.animator.SetBool( "inWater", false );
+					character.Animator.SetBool( "inWater", false );
 				}
 			}
 

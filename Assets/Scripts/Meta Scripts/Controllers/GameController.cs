@@ -324,7 +324,7 @@ public class GameController : MonoBehaviour {
 		// deactivate current character
 		c.isActive = false;
 		c.receivingInput = false;
-		c.canMove = false;
+		c.CanMove = false;
 		c.stop();
 	}
 
@@ -343,7 +343,7 @@ public class GameController : MonoBehaviour {
 		// activate new character
 		c.isActive = true;
 		c.receivingInput = true;
-		c.canMove = true;
+		c.CanMove = true;
 
 //		Debug.Log("activateCharacter c.controllingPlayer: " + c.controllingPlayer);
 
