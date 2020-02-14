@@ -72,16 +72,16 @@ public class ClimbLadder : MonoBehaviour {
 		if ( _character.gameObject.layer == ladderLayer && !_grabAndCarry.carrying ) {
 				
 			// 
-			if ( _character.inputCheck() && _character.canMove ) {
+			if ( _character.inputCheck() && _character.CanMove ) {
 
 				_rigidbody.gravityScale = 0;
-				_character.animator.SetBool( "Climbing", true );
+				_character.Animator.SetBool( "Climbing", true );
 
 				float v = Joypad.Read.Buttons.vertical;
 				_rigidbody.velocity = new Vector2( _rigidbody.velocity.x, v * climbSpeed );
 			}
 		} else {
-			_character.animator.SetBool( "Climbing", false );
+			_character.Animator.SetBool( "Climbing", false );
 		}
 	}
 

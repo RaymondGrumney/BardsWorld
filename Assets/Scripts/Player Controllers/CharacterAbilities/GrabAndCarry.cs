@@ -161,7 +161,7 @@ public class GrabAndCarry : MonoBehaviour {
 		setColliders(target, false);
 
 		// play animation for picking up object
-		_character.animator.SetTrigger( "Pick Up" );
+		_character.Animator.SetTrigger( "Pick Up" );
 
 		// get the sprite renderer for the object
 		_carriedObjectSpriteRenderer = target.GetComponent<SpriteRenderer>();
@@ -228,7 +228,7 @@ public class GrabAndCarry : MonoBehaviour {
 		setColliders( _carriedObject, true );
 
 		// play animation and prevent movement momentarily
-		_character.animator.SetTrigger("DropItem");
+		_character.Animator.SetTrigger("DropItem");
 
 		if (inputTimesOut) {
 			_character.inputTimeout();

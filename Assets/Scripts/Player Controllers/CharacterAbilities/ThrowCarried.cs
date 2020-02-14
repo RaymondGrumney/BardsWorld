@@ -198,7 +198,7 @@ public class ThrowCarried : GrabAndCarry {
 		_canThrow = false;
 
 		// allow player mvoement again
-		_character.canMove = true;
+		_character.CanMove = true;
 
 		_carriedObject.GetComponent<Rigidbody2D>().angularVelocity = throwAngularForce * -_character.facing.x;
 
@@ -217,7 +217,7 @@ public class ThrowCarried : GrabAndCarry {
 	void drawAndModifyThrowTrajecory()
 	{
 		// prevent character movement
-		_character.canMove = false;
+		_character.CanMove = false;
 
 		// angle and facing
 		float facedThrowAngle = _currentThrowAngle;		// default to current throw angle

@@ -133,7 +133,7 @@ public class Blob : Character {
 			stickOnCommand();						
 
 			// if trying to move
-			if ( receivingInput && canMove ) {
+			if ( receivingInput && CanMove ) {
 				checkMovement();
 			}
 		}
@@ -300,7 +300,7 @@ public class Blob : Character {
 	/// </summary>
 	/// <returns>The input.</returns>
 	private float getInput() {
-		if (inputCheck() && canMove) {
+		if (inputCheck() && CanMove) {
 			// between 45 & -45, 135 & -135 = h, else v
 			// between 45 & 315, 135 & 225
 
@@ -542,7 +542,7 @@ public class Blob : Character {
 	/// Checks if blob can move, and does
 	/// </summary>
 	private void checkMovement() {
-		if ( inputCheck() && canMove ) {
+		if ( inputCheck() && CanMove ) {
 			move();
 		}
 	}
