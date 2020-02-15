@@ -35,7 +35,7 @@ public class KnockBackOnTouch : MonoBehaviour {
 			// use direction to generate new velocity
 			Vector3 newVelocity = new Vector3(knockBackForce.x * direction, knockBackForce.y, knockBackForce.z);
 
-			other.GetComponent<Character>().inputTimeout( timeout );
+			other.BroadcastMessage( "Stun", timeout );
 
 			// apply new velocity
 			rigidbody.velocity = newVelocity;

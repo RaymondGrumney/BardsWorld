@@ -147,13 +147,6 @@ public class GrabAndCarry : MonoBehaviour {
 	/// </summary>
 	/// <param name="target">Target.</param>
 	protected void pickUp (GameObject target) {
-
-		Blob blob = target.GetComponent<Blob>();
-
-		if (blob) {
-			blob.pickup();
-		}
-
 		// assign carriedObject
 		_carriedObject = target;
 
@@ -230,9 +223,7 @@ public class GrabAndCarry : MonoBehaviour {
 		// play animation and prevent movement momentarily
 		_character.Animator.SetTrigger("DropItem");
 
-		if (inputTimesOut) {
-			_character.inputTimeout();
-		}
+		BroadcastMessage("Stun");
 
 		// set parent of the object
 		_carriedObject.transform.SetParent(this.transform.parent);

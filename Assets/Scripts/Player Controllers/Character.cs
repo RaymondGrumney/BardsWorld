@@ -4,13 +4,14 @@ using UnityEngine;
 /// <summary>
 /// A character object, concerned with moving the character and other user input.
 /// </summary>
-public class Character : Moveable {
-
+public class Character : MonoBehaviour
+{
 	/// <summary>
 	/// Whether this character is active.
 	/// </summary>
 	[Tooltip("Whether this character is active.")]
 	public bool isActive = false;
+	public bool SetActive(bool state = true) { return isActive = state; }
 
 	/// <summary>
 	/// Whether the character is swimming.
@@ -27,11 +28,6 @@ public class Character : Moveable {
 	public float maxSpeed = 3;
 	public float horizontal;
 
-	/// <summary>
-	/// The standard control timeout length (on attack, etc).
-	/// </summary>
-	[Tooltip("The standard control timeout length (on attack, etc).")]
-	public float standardTimeout;
 
 
 	/// <summary>
@@ -48,7 +44,6 @@ public class Character : Moveable {
 	/// <summary>
 	/// The next Time.time players can control this object
 	/// </summary>
-	protected float _inputTimeOut = 0;				// to prevent input during actions
 	private float _idleSince = 0;					// counts length of time since last input
 
 
@@ -76,7 +71,7 @@ public class Character : Moveable {
 	/// <summary>
 	/// This character's animator.
 	/// </summary>
-	protected Animator _animator;						// this character's animator
+	protected Animator _animator;
 
 	public Animator Animator {
 		get{ return _animator; }
@@ -98,7 +93,7 @@ public class Character : Moveable {
 	/// The sprite renderer.
 	/// </summary>
 	protected SpriteRenderer _spriteRenderer;
-
+	protected Rigidbody2D _rigidbody;
 
 	void Start() {
 		// get private components
@@ -110,11 +105,13 @@ public class Character : Moveable {
 	protected void startRoutine() {
 		_animator = GetComponent<Animator>();
 		_spriteRenderer = GetComponent<SpriteRenderer>();
+		_rigidbody = GetComponent<Rigidbody2D>();
 	}
 
-	// updated every frame
-	void FixedUpdate(){
 
+	// updated every frame
+	void FixedUpdate()
+	{
 		if ( isActive ) {
 			standardUpdateActions();
 
@@ -122,36 +119,17 @@ public class Character : Moveable {
 				checkMovement();
 			}
 		} 
-
-		base.FixedUpdate();
 	}
 
 
 	// updated every frame after Update()
-	void LateUpdate() {
-
+	void LateUpdate()
+	{
 		// tell the animinator what your vertical speed is
 		if (_animator) {
 			_animator.SetFloat( "vSpeed", _rigidbody.velocity.y );
 		}
 	}
-
-
-	/// <summary>
-	/// Times out input by the standard timeout
-	/// </summary>
-	public void inputTimeout() {
-		_inputTimeOut = Time.time + standardTimeout; 
-	}
-
-	/// <summary>
-	/// Times out input by the sent vale (in seconds).
-	/// </summary>
-	/// <param name="value">How long to time out input.</param>
-	public void inputTimeout(float value) {
-		_inputTimeOut = Time.time + value; 
-	}
-
 
 	// Actions 
 	protected void standardUpdateActions() {
@@ -166,7 +144,7 @@ public class Character : Moveable {
 //		Vector2 moveSpeed = _moveVector;
 		Vector2 moveSpeed = Vector2.zero;
 
-		moveSpeed.y += _rigidbody.velocity.y;
+		//moveSpeed.y += _rigidbody.velocity.y;
 
 		if (inputCheck() && _canMove) {
 			
@@ -175,22 +153,17 @@ public class Character : Moveable {
 			// if the value on the horizontal axis is +/- 0.1
 			if (Mathf.Abs( h ) > 0.1f)
 			{
-				// update facing
-				_facing = new Vector2( Mathf.Ceil( h ), 0 );
+				_facing = new Vector2(Mathf.Ceil(h), 0);
 
-				// move the character
-				moveSpeed.x += h * maxSpeed;
-
-				// flip the sprite if moving leftward
-				//_spriteRenderer.flipX = h < 0.1f;
-
-				float x = 0f;
-				float y = 90f + (90f * -_facing.x);
-				float z = 0f;
-
-				gameObject.transform.rotation = Quaternion.Euler(x, y, z);
 				
-			} else {
+				// move the character
+				_rigidbody.velocity = new Vector2(h * maxSpeed,_rigidbody.velocity.y);
+
+				
+				FlipFacingBasedOnFacing( );
+
+			}
+			else {
 				// stop horizontal movement if the player is not moving the character
 //				stop();
 			}
@@ -201,10 +174,15 @@ public class Character : Moveable {
 			// set Params of animator
 			_animator.SetFloat( "Speed", 0 );
 		}
+	}
 
-		// move the character
-		////_rigidbody.velocity = moveSpeed;
-		_rigidbody.velocity = moveSpeed;
+	private void FlipFacingBasedOnFacing()
+	{
+		float x = 0f;
+		float y = 90f + (90f * -_facing.x);
+		float z = 0f;
+
+		gameObject.transform.rotation = Quaternion.Euler(x, y, z);
 	}
 
 
@@ -218,12 +196,13 @@ public class Character : Moveable {
 	/// </summary>
 	/// <returns><c>true</c>, if input is being accepted, <c>false</c> otherwise.</returns>
 	public bool inputCheck() {
-		
+
 		// it is currently receiving input if:
 		//   it's marked active
 		//   it's marked as receiving input (obviously)
 		//   it's time out value is in the past
-		return isActive && _receivingInput && _inputTimeOut < Time.time;
+		return isActive && _receivingInput;
+		//return isActive && _receivingInput && _inputTimeOut < Time.time;
 	}
 
 
@@ -236,7 +215,7 @@ public class Character : Moveable {
 		if (_grounded) {
 //			_rigidbody.velocity = _moveVector + new Vector2( 0, _rigidbody.velocity.y ); // TODO: why would rb.vel.y not == 0 if grounded?
 //			_moveVector = Vector2.zero;
-			_moveVector = _moveVector + new Vector2( 0, _rigidbody.velocity.y ); // TODO: why would rb.vel.y not == 0 if grounded?
+			_rigidbody.velocity = new Vector2( 0, _rigidbody.velocity.y ); // TODO: why would rb.vel.y not == 0 if grounded?
 
 		}
 
