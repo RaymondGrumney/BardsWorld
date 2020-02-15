@@ -4,41 +4,31 @@ using UnityEngine;
 
 public class Sheild : MonoBehaviour
 {
+    [Tooltip("How much it bounces the attacker back on attack.")]
+    public float Bounciness = 8f;
+    [Tooltip("How much it lifts the attacker back.")]
+    public float lift = 3f;
     [Tooltip("How much it bounces back on attack (multiplied by attack value.")]
-    public float Bounciness = 1;
-    public float lift = 0.2f;
+    public float stunLength = 0.25f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    public AudioClip impactSound;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Vector2 moveVector = gameObject.GetComponentInParent<Moveable>().moveVector;
-        float damage = collision.gameObject.GetComponentInParent<DealsDamage>().damage;
-        moveVector = (Vector2)((transform.position - collision.transform.position).normalized * Bounciness * damage) + moveVector;
+        // bounce it back
+        // determine if bounce left or right
+        Vector2 them = collision.attachedRigidbody.transform.position;
+        float diff = Mathf.Sign(transform.position.x - them.x);
 
-        Vector2 diff = (transform.position - collision.transform.position);
-        Vector2 bunco = new Vector2(lift, Mathf.Round(diff.y));
-        Vector2 normalizedDiff = bunco.normalized;
+        Vector2 theirVelocity = collision.attachedRigidbody.velocity;
 
-        collision.GetComponentInParent<Moveable>().SendMessage("AddVector", - (Vector2)(diff * Bounciness * damage));
-    }
+        collision.attachedRigidbody.velocity = new Vector2(-Bounciness * diff, theirVelocity.y + lift);
 
-    
+        // TODO: this should
+        collision.SendMessageUpwards("Stun", stunLength);
+        collision.SendMessage("DisableDamage");
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        Debug.Log("OnCollisionStay2D");
-        // disable attac
+        // Play Impact Sound
+        SoundHelper.Play(impactSound, transform.position);
     }
 }
