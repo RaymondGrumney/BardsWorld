@@ -1,4 +1,5 @@
-﻿using CommonAssets.Utilities;
+﻿using CommonAssets;
+using CommonAssets.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class DealsDamage : MonoBehaviour
 	
 	[Tooltip("The damage this deals.")]
 	public int damage = 1;
+	public Vector2 knockBackForce = DefaultValues.KnockBackForce;
 
 	[Tooltip("The sound we play on impact.")]
 	public AudioClip impactSound;
@@ -57,6 +59,9 @@ public class DealsDamage : MonoBehaviour
 		if (!damageDisabled)
 		{
 			Easily.PlaySound(impactSound, transform.position);
+
+			// knockback
+			KnockBack.Knock(other).Back(knockBackForce).From(gameObject);
 
 			// Spawn object at spawnPoint or, if none defined at the center of this object
 			Vector3 spawnPosition = transform.localPosition;

@@ -1,13 +1,12 @@
-﻿using System.Collections;
+﻿using CommonAssets;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Sheild : MonoBehaviour
 {
     [Tooltip("How much it bounces the attacker back on attack.")]
-    public float Bounciness = 8f;
-    [Tooltip("How much it lifts the attacker back.")]
-    public float lift = 3f;
+    public Vector2 knockBackForce = DefaultValues.KnockBackForce;
     [Tooltip("How much it bounces back on attack (multiplied by attack value.")]
     public float stunLength = 0.25f;
 
@@ -17,12 +16,15 @@ public class Sheild : MonoBehaviour
     {
         // bounce it back
         // determine if bounce left or right
-        Vector2 them = collision.attachedRigidbody.transform.position;
-        float diff = Mathf.Sign(transform.position.x - them.x);
+        //Vector2 them = collision.attachedRigidbody.transform.position;
+        //float diff = Mathf.Sign(transform.position.x - them.x);
 
-        Vector2 theirVelocity = collision.attachedRigidbody.velocity;
+        //Vector2 theirVelocity = collision.attachedRigidbody.velocity;
 
-        collision.attachedRigidbody.velocity = new Vector2(-Bounciness * diff, theirVelocity.y + lift);
+
+        //collision.attachedRigidbody.velocity = new Vector2(-knockBackForce.x * diff, theirVelocity.y + knockBackForce.y);
+
+        KnockBack.Knock(collision).Back(knockBackForce).From(gameObject);
 
         // TODO: this should
         collision.SendMessageUpwards("Stun", stunLength);

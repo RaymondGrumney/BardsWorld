@@ -69,10 +69,12 @@
     <Compile Include="Assets\Common\CommonAssets\Joypads\Presets\SwitchJoypad.cs" />
     <Compile Include="Assets\Common\CommonAssets\Joypads\Presets\XInputJoypad.cs" />
     <Compile Include="Assets\Common\CommonAssets\Joypads\Read.cs" />
+    <Compile Include="Assets\Common\CommonAssets\KnockBack.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\Easily.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\Get.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\Instantiator.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\SoundHelper.cs" />
+    <Compile Include="Assets\Scripts\DefaultValues.cs" />
     <Compile Include="Assets\Scripts\Enemies\BaseEnemy.cs" />
     <Compile Include="Assets\Scripts\Enemies\BatAI.cs" />
     <Compile Include="Assets\Scripts\Enemies\Cockroach.cs" />
@@ -171,7 +173,6 @@
     <Compile Include="Assets\Scripts\Universal Abilities\Sheild.cs" />
     <Compile Include="Assets\Scripts\Universal Abilities\Stunable.cs" />
     <Compile Include="Assets\Scripts\Universal Abilities\TakesDamage.cs" />
-    <Compile Include="Assets\Scripts\Universal Abilities\UniversalValues.cs" />
     <None Include="Assets\Audio\8-bit-sound-effects-library - littlerobotsoundfactory\_readme_and_license.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/User/source/repos/Bard's World/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
