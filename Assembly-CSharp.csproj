@@ -71,6 +71,8 @@
     <Compile Include="Assets\Common\CommonAssets\Joypads\Read.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\Easily.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\Get.cs" />
+    <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\Instantiator.cs" />
+    <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\SoundHelper.cs" />
     <Compile Include="Assets\Scripts\Enemies\BaseEnemy.cs" />
     <Compile Include="Assets\Scripts\Enemies\BatAI.cs" />
     <Compile Include="Assets\Scripts\Enemies\Cockroach.cs" />
@@ -118,8 +120,6 @@
     <Compile Include="Assets\Scripts\Objects\Collectibles\Collectible.cs" />
     <Compile Include="Assets\Scripts\Objects\ColorButton.cs" />
     <Compile Include="Assets\Scripts\Objects\Door.cs" />
-    <Compile Include="Assets\Scripts\Objects\Events\BlobDropsOnTouch.cs" />
-    <Compile Include="Assets\Scripts\Objects\Events\DamagesBlobOnTouch.cs" />
     <Compile Include="Assets\Scripts\Objects\Events\DestroyComponentsOnImpact.cs" />
     <Compile Include="Assets\Scripts\Objects\Events\DestroyOnImpact.cs" />
     <Compile Include="Assets\Scripts\Objects\Events\DisappearButtonTarget.cs" />
@@ -153,7 +153,6 @@
     <Compile Include="Assets\Scripts\Objects\Throwable.cs" />
     <Compile Include="Assets\Scripts\Objects\WaitToDestroy.cs" />
     <Compile Include="Assets\Scripts\Objects\Water.cs" />
-    <Compile Include="Assets\Scripts\Player Controllers\Blob.cs" />
     <Compile Include="Assets\Scripts\Player Controllers\Character.cs" />
     <Compile Include="Assets\Scripts\Player Controllers\CharacterAbilities\Attack.cs" />
     <Compile Include="Assets\Scripts\Player Controllers\CharacterAbilities\ClimbLadder.cs" />
@@ -169,8 +168,10 @@
     <Compile Include="Assets\Scripts\Universal Abilities\DealsDamage.cs" />
     <Compile Include="Assets\Scripts\Universal Abilities\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\Universal Abilities\KnockBackOnTouch.cs" />
+    <Compile Include="Assets\Scripts\Universal Abilities\Sheild.cs" />
+    <Compile Include="Assets\Scripts\Universal Abilities\Stunable.cs" />
     <Compile Include="Assets\Scripts\Universal Abilities\TakesDamage.cs" />
-    <Compile Include="Assets\Sheild.cs" />
+    <Compile Include="Assets\Scripts\Universal Abilities\UniversalValues.cs" />
     <None Include="Assets\Audio\8-bit-sound-effects-library - littlerobotsoundfactory\_readme_and_license.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/User/source/repos/Bard's World/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
