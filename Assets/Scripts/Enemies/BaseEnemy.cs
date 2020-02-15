@@ -1,13 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// The base enemy AI.
 /// </summary>
-public abstract class BaseEnemy : MonoBehaviour {
-
-
+public abstract class BaseEnemy : MonoBehaviour 
+{
 	[Header("Base AI Settings")]
 	[Header("Movement Settings")]
 
@@ -45,10 +45,10 @@ public abstract class BaseEnemy : MonoBehaviour {
 	/// </summary>
 	protected Vector2 _startingPoint;
 
-	/// <summary>
-	/// Where this enemy is currently going.
-	/// </summary>
-	protected Vector2 _gotoPoint;
+    /// <summary>
+    /// Where this enemy is currently going.
+    /// </summary>
+    protected Vector2 _gotoPoint;
 
 	/// <summary>
 	/// The physics layer this object is on.
@@ -130,6 +130,7 @@ public abstract class BaseEnemy : MonoBehaviour {
 	/// The bait this enemy is eating.
 	/// </summary>
 	protected GameObject baitEating;
+
 
 	// Use this for initialization
 	void Awake () {

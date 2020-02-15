@@ -34,7 +34,6 @@ public class Moveable : MonoBehaviour {
 
 		// modify velocity
 		_rigidbody.velocity += _moveVector;
-		Debug.Log(_moveVector);
 
 		// reset vector to 0
 		_moveVector = Vector2.zero;

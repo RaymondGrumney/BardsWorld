@@ -38,7 +38,7 @@ public class Grounding : MonoBehaviour {
 		// if the object has an attribute list
 		if (attributes != null) {
 			// and it's not ungroundable
-			if (!attributes.unGroundable) {
+			if (!attributes.doesNotGroundCharacter) {
 				groundCharacter();
 			}
 		} else {
