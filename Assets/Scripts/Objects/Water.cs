@@ -45,14 +45,6 @@ public class Water : MonoBehaviour {
 		}
 
 
-		//Water kills blob
-		Blob blob = other.GetComponent<Blob>();
-
-		if (blob) {
-			blob.GetComponent<TakesDamage>().kill();
-		}
-
-
 		// faye can jump out of water, but not double jump afterward; 
 		// therefore we reset double jump and let her "double" jump out of water
 		DoubleJump doubleJump = other.GetComponent<DoubleJump>();

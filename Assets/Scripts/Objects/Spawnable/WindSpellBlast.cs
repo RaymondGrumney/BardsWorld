@@ -8,12 +8,5 @@ public class WindSpellBlast : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other) {
 		
 
-		// Check if Blob
-		Blob blob = other.GetComponent<Blob>();
-
-		if (blob) {
-			// unstick Blob
-			blob.thrown();
-		}
 	}
 }

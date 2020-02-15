@@ -20,12 +20,6 @@ public class Attributes : MonoBehaviour {
 	/// </summary>
 	public bool carriable = false;
 
-	[Tooltip("Whether the blob can stick to this object.")]
-	/// <summary>
-	/// Whether the blob can stick to this object.
-	/// </summary>
-	public bool sticky = false;
-
 	[Tooltip("Whether this object floats in water, and, therefore, IS A WITCH!!!")]
 	/// <summary>
 	/// Whether this object floats in water, and, therefore, IS A WITCH!!!.
@@ -42,7 +36,7 @@ public class Attributes : MonoBehaviour {
 	/// <summary>
 	/// Whether this object does not ground characters.
 	/// </summary>
-	public bool unGroundable = false;
+	public bool doesNotGroundCharacter = false;
 
 	[Tooltip("Whether this object is bait for enemies.")]
 	/// <summary>
@@ -67,7 +61,4 @@ public class Attributes : MonoBehaviour {
 	/// If this object grows vines.
 	/// </summary>
 	public bool grows;
-
-
-
 }
