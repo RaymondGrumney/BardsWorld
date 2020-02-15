@@ -93,12 +93,12 @@ public class LifeDisplay : MonoBehaviour {
 
 		// set values
 		_maxHealth = _takesDamage.maxHealth;
-		_currentHealth = _takesDamage.currentHealth;
+		_currentHealth = _takesDamage.currentLife;
 
 		InitializeHeartDisplays();
 
 		// if for some reason current and max health are not the same, update the display
-		adjustDisplay( 0 );	
+		AdjustLifeDisplayUp( 0 );	
 	}
 
 	// initializes arrays and assigns game objects to them
@@ -190,7 +190,7 @@ public class LifeDisplay : MonoBehaviour {
 	/// Adjusts the display.
 	/// </summary>
 	/// <param name="value">The amount will we adjust the display by.</param>
-	public void adjustDisplay( int value ) {
+	private void adjustDisplay( int value ) {
 		
 		_currentHealth += value;
 
@@ -214,7 +214,17 @@ public class LifeDisplay : MonoBehaviour {
 
 		show();
 	}
-		
+
+	public void AdjustLifeDisplayDown( int value )
+	{
+		adjustDisplay(-value);
+	}
+
+	public void AdjustLifeDisplayUp(int value)
+	{
+		adjustDisplay(value);
+	}
+
 	public void show() {
 		fadeOutTime = Time.time + stayTime;
 	}
