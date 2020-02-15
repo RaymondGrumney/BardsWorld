@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using CommonAssets.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public abstract class Collectible : MonoBehaviour {
 	/// <summary>
 	/// The sound affect on pick up.
 	/// </summary>
-	public MakesNoise onPickupSFX;
+	public AudioClip onPickupSFX;
 
 	void OnTriggerEnter2D(Collider2D other) {
 		
@@ -19,9 +20,7 @@ public abstract class Collectible : MonoBehaviour {
 		collect( other.gameObject );
 
 		// play the pick up sound
-		if (onPickupSFX) {
-			onPickupSFX.playNoise();
-		}
+		Easily.PlaySound(onPickupSFX);
 
 		// turn off things
 		this.GetComponent<SpriteRenderer>().enabled = false;
