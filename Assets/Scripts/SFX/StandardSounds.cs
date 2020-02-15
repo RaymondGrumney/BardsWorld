@@ -62,19 +62,19 @@ public class StandardSounds : MonoBehaviour {
 
 	// on Awake
 	void Awake() {
-		if (spawnSound != null) {
-			AudioSource.PlayClipAtPoint( spawnSound, transform.position );
-		}
+		SoundHelper.Play(spawnSound, transform.position);
 	}
 
 
-	// Update is called once per frame
 	void Update () {
-		if (continuousSound != null) {
-			if (_continuousLastStarted + continuousSound.length < Time.time) {
-				
+
+		if (continuousSound != null)
+		{
+			if (_continuousLastStarted + continuousSound.length < Time.time)
+			{
+
 				_continuousLastStarted = Time.time;
-				AudioSource.PlayClipAtPoint( continuousSound, transform.position );
+				AudioSource.PlayClipAtPoint(continuousSound, transform.position);
 			}
 		}
 
@@ -87,11 +87,19 @@ public class StandardSounds : MonoBehaviour {
 		}
 	}
 
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		SoundHelper.Play(impactSound, transform.position);
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		SoundHelper.Play(impactSound, transform.position);
+	}
+
 	// when object is destroy
 	void OnDestroy(){
 
-		if (destroySound != null) {
-			AudioSource.PlayClipAtPoint( destroySound, transform.position );
-		}
+		SoundHelper.Play(destroySound, transform.position);
 	}
 }
