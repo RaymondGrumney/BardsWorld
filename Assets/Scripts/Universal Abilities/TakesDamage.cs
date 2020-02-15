@@ -10,7 +10,7 @@ public class TakesDamage : MonoBehaviour {
 	public int maxHealth = 1;
 
 	[Tooltip("The health of this object. Will default to maxHealth at runTime if set to 0 (or higher than maxHealth)")]	
-	public int currentHealth;
+	public int currentLife;
 
 	[Tooltip("The standard length of time (in seconds) not accepting damage after a hit.")]
 	public float standardDamageTimeout = 2;
@@ -42,8 +42,8 @@ public class TakesDamage : MonoBehaviour {
 
 	void Start() {
 		// set current health to max health if current health is set to 0 or above maxHealth at runtime 
-		if( currentHealth == 0 || currentHealth > maxHealth ) {
-			currentHealth = maxHealth;
+		if( currentLife == 0 || currentLife > maxHealth ) {
+			currentLife = maxHealth;
 		}
 
 		// get this game object's component's needed for this script
@@ -70,52 +70,59 @@ public class TakesDamage : MonoBehaviour {
 			}
 		}
 
-		if (currentHealth <= 0) {
+		if (currentLife <= 0) {
 			death();
 		}
 	}
 
 
+	public int GainLife(int life)
+	{
+		currentLife += life;
+
+		if (currentLife > maxHealth)
+		{
+			currentLife = maxHealth;
+		}
+
+		return currentLife;
+	}
+
 	/// <summary>
 	/// Adjust life total by amount.
 	/// </summary>
 	/// <param name="damage">Damage.</param>
-	public void adjustLife(int value) {
-		
-		currentHealth += value;
+	public int TakeDamage(int damage) 
+	{
+		if (IsTakingDamage())
+		{
+			currentLife -= damage;
 
-		if (currentHealth > maxHealth) {
-			currentHealth = maxHealth;
-		}
-
-		// if the ad
-		if (value < 0) {
-			_damageTimeout = Time.time + standardDamageTimeout;		// prevent damage for the standard damage timeout
+			_damageTimeout = Time.time + standardDamageTimeout;     // prevent damage for the standard damage timeout
 			playHitSound();
+
+			BroadcastMessage("AdjustLifeDisplayDown", damage, SendMessageOptions.DontRequireReceiver);
+
+			// spawn SpawnOnImpact object
+			if (spawnOnDamage != null)
+			{
+				Instantiate(spawnOnDamage, this.transform.position, Quaternion.identity);
+				spawnOnDamage = null;
+			}
 		}
 
-
-		if (lifeDisplay != null) {
-			lifeDisplay.adjustDisplay( value );
-		}
-
-
-		// spawn SpawnOnImpact object
-		if (spawnOnDamage != null) {
-			Instantiate( spawnOnDamage, this.transform.position, Quaternion.identity );
-			spawnOnDamage = null;
-		}
+		return currentLife;
 	}
 
-	public void kill() {
-		currentHealth = 0;
+	public void Kill() {
+		currentLife = 0;
 	}
 
 	/// <summary>
 	/// if currently taking damage
 	/// </summary>
 	/// <returns><c>true</c>, if currently taking damage, <c>false</c> otherwise.</returns>
-	public bool isTakingDamage() {
+	public bool IsTakingDamage() {
 		return _damageTimeout < Time.time && takingDamage;
 	}
 

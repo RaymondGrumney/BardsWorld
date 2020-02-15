@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using CommonAssets.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DealsDamage : MonoBehaviour {
+public class DealsDamage : MonoBehaviour 
+{
 
-
+	
 	[Tooltip("The damage this deals.")]
 	public int damage = 1;
 
@@ -14,8 +16,14 @@ public class DealsDamage : MonoBehaviour {
 	[Tooltip("The object we spawn on impact.")]
 	public GameObject spawnOnImpact;
 
+	[Tooltip("Where to spawn that object")]
+	public GameObject spawnPoint;
+
 	[Tooltip("Whether we destroy this object on impact.")]
 	public bool destroyOnImpact;
+
+	[Tooltip("If the damage has been disabled.")]
+	public bool damageDisabled = false;
 
 
 	// the two following method handle both the cases that the damage dealing object uses either:
@@ -24,13 +32,15 @@ public class DealsDamage : MonoBehaviour {
 	// they are otherwise functionally identical
 
 	// when something touches the collider
-	protected virtual void OnCollisionEnter2D(Collision2D other) {
-		hit( other.gameObject );
+	protected virtual void OnCollisionEnter2D(Collision2D other) 
+	{
+		StartCoroutine( Hit( other.gameObject ) );
 	}
 
 	// when something enters the trigger
 	protected virtual void OnTriggerEnter2D(Collider2D other) {
-		hit( other.gameObject );
+
+		StartCoroutine( Hit( other.gameObject ) );
 	}
 
 
@@ -38,24 +48,23 @@ public class DealsDamage : MonoBehaviour {
 	/// Hit the other object
 	/// </summary>
 	/// <param name="other">The Object we're hitting.</param>
-	void hit(GameObject other) {
+	IEnumerator Hit(GameObject other) 
+	{
+		// wait until next FixedUpdate
+		yield return new WaitForEndOfFrame();
 
-		// deal damage to other
-		dealDamage( other );
+		// deal damage
+		if (!damageDisabled)
+		{
+			Easily.PlaySound(impactSound, transform.position);
 
+			// Spawn object at spawnPoint or, if none defined at the center of this object
+			Vector3 spawnPosition = transform.localPosition;
+			if (spawnPoint is null) { spawnPosition = spawnPoint.transform.localPosition; }
+			Easily.Instantiate( spawnOnImpact, spawnPosition );
 
-		// play hitSound
-		if (impactSound != null) {
-			AudioSource.PlayClipAtPoint( impactSound, transform.position );
+			other.SendMessage("TakeDamage", damage);
 		}
-
-
-		// spawn SpawnOnImpact object
-		if (spawnOnImpact != null) {
-			Instantiate( spawnOnImpact, transform.GetComponent<Collider2D>().bounds.center, Quaternion.identity );
-			//spawnOnImpact = null;
-		}
-
 
 		// destroy if destroyOnImpact
 		if (destroyOnImpact) {
@@ -64,21 +73,17 @@ public class DealsDamage : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Deals damage to other
+	/// Disables damage on this object
 	/// </summary>
-	/// <param name="other">Other.</param>
-	void dealDamage(GameObject other) {
+	/// <returns></returns>
+	public void DisableDamage()
+	{
+		damageDisabled = true;
+	}
 
-		TakesDamage receiver = other.gameObject.GetComponent<TakesDamage>();
-
-		if (receiver != null) {
-
-			// if the receiver is currently taking damage
-			if ( receiver.isTakingDamage() ) {
-
-				receiver.adjustLife( - damage );
-			}
-		}
+	public void EnableDamage()
+	{
+		damageDisabled = false;
 	}
 }
 
