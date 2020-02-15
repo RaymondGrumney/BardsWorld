@@ -69,10 +69,10 @@
     <Compile Include="Assets\Common\CommonAssets\Joypads\Presets\SwitchJoypad.cs" />
     <Compile Include="Assets\Common\CommonAssets\Joypads\Presets\XInputJoypad.cs" />
     <Compile Include="Assets\Common\CommonAssets\Joypads\Read.cs" />
-    <Compile Include="Assets\Common\CommonAssets\KnockBack.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\Easily.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\Get.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\Instantiator.cs" />
+    <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\KnockBack.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\SoundHelper.cs" />
     <Compile Include="Assets\Scripts\DefaultValues.cs" />
     <Compile Include="Assets\Scripts\Enemies\BaseEnemy.cs" />

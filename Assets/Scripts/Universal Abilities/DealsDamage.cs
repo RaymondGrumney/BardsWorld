@@ -61,7 +61,7 @@ public class DealsDamage : MonoBehaviour
 			Easily.PlaySound(impactSound, transform.position);
 
 			// knockback
-			KnockBack.Knock(other).Back(knockBackForce).From(gameObject);
+			Easily.Knock(other).Back(knockBackForce).From(gameObject);
 
 			// Spawn object at spawnPoint or, if none defined at the center of this object
 			Vector3 spawnPosition = transform.localPosition;
