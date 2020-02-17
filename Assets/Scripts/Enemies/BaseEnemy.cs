@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonAssets.Utilities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,11 +34,6 @@ public abstract class BaseEnemy : MonoBehaviour
 	/// Which direction this object is facing.
 	/// </summary>
 	public Vector2 facing = new Vector2( 1, 0 );
-
-	/// <summary>
-	/// This object's sprite renderer.
-	/// </summary>
-	protected SpriteRenderer _spriteRenderer;
 
 
 	/// <summary>
@@ -148,15 +144,15 @@ public abstract class BaseEnemy : MonoBehaviour
 
 		_rigidbody = GetComponent<Rigidbody2D>();
 		_collider = GetComponent<Collider2D>();
-		_spriteRenderer = GetComponent<SpriteRenderer>();
+		//_spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if ( forgetBehavior() ) {
-			defaultBehavior();
+	protected virtual void Update () {
+		if ( ForgetBehavior() ) {
+			DefaultBehavior();
 		} else {
-			pursuitBehavior();
+			PursuitBehavior();
 		}
 	}
 		
@@ -165,63 +161,62 @@ public abstract class BaseEnemy : MonoBehaviour
 	/// Checks if the enemy has forgotten the character and performs the forget behavior if so
 	/// </summary>
 	/// <returns><c>true</c>, the enemy has forgotten the character, <c>false</c> otherwise.</returns>
-	protected abstract bool forgetBehavior();
+	protected abstract bool ForgetBehavior();
 
 	/// <summary>
 	/// Ehat to do if not pursuing the player
 	/// </summary>
-	protected abstract void defaultBehavior();
+	protected abstract void DefaultBehavior();
 
 	/// <summary>
 	/// Performs the idle behavior.
 	/// </summary>
-	protected abstract void idleBehavior();
+	protected abstract void IdleBehavior();
 
 	/// <summary>
 	/// Check if are pursuing a character and performs pursuit behavior if so
 	/// </summary>
-	protected abstract void pursuitBehavior();
+	protected abstract void PursuitBehavior();
 
 
 	/// <summary>
 	/// Sets this enemy's facing to either right (1) or left (-1).
 	/// </summary>
 	/// <param name="newFacing">New facing.</param>
-	protected void setFacing( float newFacing ) {
-		
-		float oldFacing = Mathf.Sign( facing.x );
+	protected void SetFacing( float newFacing ) 
+	{	
 		newFacing = Mathf.Sign( newFacing );
 
-		if ( oldFacing != newFacing ) {
+		if ( facing.x != newFacing ) {
 			facing.x = newFacing;
 
-			// which direction Y should be facing
-			float yRotation = 90f - ( 90f * facing.x );
-
 			// rotate Y to 180 if facing left or to 0 if facing right	
-			transform.Rotate(0,180,0);
+			Easily.Flip(gameObject).On("yAxis");
 		}
 	}
 
 	/// <summary>
 	/// Faces the target point.
 	/// </summary>
-	protected void faceTargetPoint() {
-		setFacing( Mathf.Sign( ( (Vector3) _targetPoint - transform.position ).x ) );
+	protected void faceTargetPoint() 
+	{
+		SetFacing( Mathf.Sign( ( (Vector3) _targetPoint - transform.position ).x ) );
 	}
 
 	/// <summary>
 	/// Faces the target.
 	/// </summary>
-	protected void faceTarget() {
-		setFacing( Mathf.Sign( ( _lastCharacterSeen.transform.position - transform.position ).x ) );
+	protected void faceTarget() 
+	{
+		SetFacing( Mathf.Sign( ( _lastCharacterSeen.transform.position - transform.position ).x ) );
 	}
 
 	/// <summary>
 	/// Sets the target .
 	/// </summary>
 	/// <param name="targetPoint">Target point.</param>
-	public virtual void setTarget(GameObject target) {
+	public virtual void setTarget(GameObject target) 
+	{
 		_pursuing = true;
 		_lastCharacterSeen = target;
 		_targetPoint = target.transform.position;
@@ -235,7 +230,8 @@ public abstract class BaseEnemy : MonoBehaviour
 	/// <returns><c>true</c>, if a is near enough to be, by the moveMargin, <c>false</c> otherwise.</returns>
 	/// <param name="a">The alpha component.</param>
 	/// <param name="b">The blue component.</param>
-	protected bool isNearEnough(Vector2 a, Vector2 b) {
+	protected bool isNearEnough(Vector2 a, Vector2 b) 
+	{
 		return MyUtilities.IsNearEnough( a, b, moveMargin );
 	}
 
@@ -246,7 +242,8 @@ public abstract class BaseEnemy : MonoBehaviour
 	/// <returns><c>true</c>, if a is near enough to be, by the moveMargin, <c>false</c> otherwise.</returns>
 	/// <param name="a">The alpha component.</param>
 	/// <param name="b">The blue component.</param>
-	protected bool isNearEnough(float a, float b) {
+	protected bool isNearEnough(float a, float b) 
+	{
 		return MyUtilities.IsNearEnough( a, b, moveMargin );
 	}
 
@@ -254,7 +251,8 @@ public abstract class BaseEnemy : MonoBehaviour
 	/// <summary>
 	/// Moves in the direction th enemey is
 	/// </summary>
-	protected void moveForward() {
+	protected void moveForward() 
+	{
 		if (_rigidbody.velocity.x < speed) {
 			_rigidbody.velocity =  facing * speed;
 		}

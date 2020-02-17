@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using CommonAssets.Utilities;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -80,7 +81,7 @@ public class Character : MonoBehaviour
 	/// <summary>
 	/// the normalized the character is "facing".
 	/// </summary>
-	protected Vector3 _facing = Vector3.right;
+	protected Vector2 _facing = Vector3.right;
 
 	/// <summary>
 	/// The normalized direction this character is "Facing."
@@ -153,15 +154,17 @@ public class Character : MonoBehaviour
 			// if the value on the horizontal axis is +/- 0.1
 			if (Mathf.Abs( h ) > 0.1f)
 			{
-				_facing = new Vector2(Mathf.Ceil(h), 0);
-
-				
 				// move the character
-				_rigidbody.velocity = new Vector2(h * maxSpeed,_rigidbody.velocity.y);
+				_rigidbody.velocity = new Vector2(h * maxSpeed, _rigidbody.velocity.y);
 
-				
-				FlipFacingBasedOnFacing( );
+				// check if new facing and rotate
+				Vector2 newFacing = new Vector2(Mathf.Ceil(h), 0);
 
+				if (_facing != newFacing)
+				{
+					_facing = newFacing;
+					Easily.Flip(gameObject).On("yAxis");
+				}
 			}
 			else {
 				// stop horizontal movement if the player is not moving the character
@@ -176,15 +179,6 @@ public class Character : MonoBehaviour
 		}
 	}
 
-	private void FlipFacingBasedOnFacing()
-	{
-		float x = 0f;
-		float y = 90f + (90f * -_facing.x);
-		float z = 0f;
-
-		gameObject.transform.rotation = Quaternion.Euler(x, y, z);
-	}
-
 
 	// checks current acctions (currently this is handled by individual scripts
 	private void checkActions() {
@@ -195,15 +189,13 @@ public class Character : MonoBehaviour
 	/// If this character is currently receiving input
 	/// </summary>
 	/// <returns><c>true</c>, if input is being accepted, <c>false</c> otherwise.</returns>
-	public bool inputCheck() {
-
+	public bool inputCheck()
 		// it is currently receiving input if:
 		//   it's marked active
 		//   it's marked as receiving input (obviously)
 		//   it's time out value is in the past
-		return isActive && _receivingInput;
+		=> isActive && _receivingInput;
 		//return isActive && _receivingInput && _inputTimeOut < Time.time;
-	}
 
 
 
@@ -212,11 +204,9 @@ public class Character : MonoBehaviour
 	/// </summary>
 	public virtual void stop()
 	{
-		if (_grounded) {
-//			_rigidbody.velocity = _moveVector + new Vector2( 0, _rigidbody.velocity.y ); // TODO: why would rb.vel.y not == 0 if grounded?
-//			_moveVector = Vector2.zero;
+		if (_grounded) 
+		{
 			_rigidbody.velocity = new Vector2( 0, _rigidbody.velocity.y ); // TODO: why would rb.vel.y not == 0 if grounded?
-
 		}
 
 		_animator.SetFloat( "Speed", 0 );
@@ -235,13 +225,4 @@ public class Character : MonoBehaviour
 			_animator.SetBool( "Grounded", value );
 		}
 	}
-
-	//protected override void MoveByVector()
-	//{
-	//	// modify velocity
-	//	_rigidbody.velocity += _moveVector;
-
-	//	// reset vector to 0
-	//	_moveVector = Vector2.zero;
-	//}
 }
