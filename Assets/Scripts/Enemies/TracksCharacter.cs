@@ -16,23 +16,23 @@ public class TracksCharacter : BaseEnemy {
 	}
 
 
-	protected override bool forgetBehavior(){
+	protected override bool ForgetBehavior(){
 		return true;
 
 	}
 
 
-	protected override void defaultBehavior(){
+	protected override void DefaultBehavior(){
 		// return to default angle
 	}
 
 
-	protected override void idleBehavior(){
+	protected override void IdleBehavior(){
 		// none
 	}
 
 
-	protected override void pursuitBehavior(){
+	protected override void PursuitBehavior(){
 		// track target
 		transform.RotateAround( _pivot, Vector2.up, MyUtilities.AngleInDegrees( transform.position, _lastCharacterSeen.transform.position ) );
 	}

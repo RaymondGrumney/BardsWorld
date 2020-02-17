@@ -11,7 +11,7 @@ public class Cockroach : BaseEnemy {
 //	}
 
 	// what to do if not pursuing character
-	protected override void defaultBehavior()
+	protected override void DefaultBehavior()
 	{
 		Debug.Log(this + " defaultBehaviour() transform.position.x: " + transform.position.x );
 		Debug.Log(this + " defaultBehaviour() _startingPoint.x: " + _startingPoint.x );
@@ -27,24 +27,24 @@ public class Cockroach : BaseEnemy {
 
 		// if idle
 		} else {
-			idleBehavior();
+			IdleBehavior();
 		}
 	}
 
-	protected override void idleBehavior()
+	protected override void IdleBehavior()
 	{
 		Debug.Log( this + " idleBehaviour()" );
 		// does nothing
 		// TODO: random animation (clean antenna)
 	}
 
-	protected override bool forgetBehavior()
+	protected override bool ForgetBehavior()
 	{
 		// forgets if not eating and character has been outside of sight for timeToForget
 		return _lastSawCharacter + timeToForget < Time.time && baitEating == null;
 	}
 
-	protected override void pursuitBehavior()
+	protected override void PursuitBehavior()
 	{
 		Debug.Log( this + " pursuitBehavior()" );
 		// if eating 

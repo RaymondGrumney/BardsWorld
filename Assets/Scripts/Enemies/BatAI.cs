@@ -35,7 +35,7 @@ public class BatAI : BaseEnemy {
 	}
 
 
-	protected override bool forgetBehavior() {
+	protected override bool ForgetBehavior() {
 		
 		return _forgot;
 	}
@@ -54,7 +54,7 @@ public class BatAI : BaseEnemy {
 				forgetPlayer();
 
 				// face away
-				setFacing( this.transform.position.x - other.transform.position.x );
+				SetFacing( this.transform.position.x - other.transform.position.x );
 
 				// and away
 				_rigidbody.velocity = facing * speed;
@@ -65,7 +65,7 @@ public class BatAI : BaseEnemy {
 			}
 		} else {
 
-			setFacing( this.transform.position.x - other.transform.position.x );
+			SetFacing( this.transform.position.x - other.transform.position.x );
 			_pursuing = false;
 			_rigidbody.gravityScale = -flightGravity;
 		}
@@ -85,7 +85,7 @@ public class BatAI : BaseEnemy {
 	/// <summary>
 	/// The AI's default behavior.
 	/// </summary>
-	protected override void defaultBehavior() {
+	protected override void DefaultBehavior() {
 	// this is where the bat retreats while hiding
 		if (_hiding) {
 
@@ -105,14 +105,14 @@ public class BatAI : BaseEnemy {
 	/// <summary>
 	/// The AI's idle behavior
 	/// </summary>
-	protected override void idleBehavior() {
+	protected override void IdleBehavior() {
 		// do nothing
 	}		
 
 	/// <summary>
 	/// the AI's pursuit.
 	/// </summary>
-	protected override void pursuitBehavior() {
+	protected override void PursuitBehavior() {
 		if ( _pursuing ) {
 
 			// make sure gravity is turned on 
