@@ -22,12 +22,14 @@ public class GuardAI : BaseEnemy {
 	[Range(0, 1)]
 	public float turnChanceDuringIdle = 1f;
 
-	[Tooltip("The angle of the cast while seeking a point to wander to.")]
-	[Range(0,1)]
-	public float MaxWanderAngle = 0.7f;
-
 	// when the last choice was made
 	protected float nextRandomChoice = 0;
+
+	public GameObject spoon;
+	public float maximumWanderDistance = 3f;
+	public float minimumWanderDistance = 1f;
+
+
 
 	// check if forgetten player 
 	protected override bool ForgetBehavior()
@@ -47,8 +49,7 @@ public class GuardAI : BaseEnemy {
 
 	// idle 
 	protected override void IdleBehavior()
-	{
-
+	{ 
 		if ( MyUtilities.CalculateChancePerDeltaTime( turnChanceDuringIdle ) ) 
 		{
 			SetFacing( -facing.x );
@@ -64,14 +65,13 @@ public class GuardAI : BaseEnemy {
 			if (nextRandomChoice < Time.time)
 			{
 				// if it's time to make another random choice
-				if (_collider.OverlapPoint(new Vector2(_gotoPoint.x, transform.position.y))) // don't care about height in level (since he can't jump)
+				if ( _collider.OverlapPoint( new Vector2( _gotoPoint.x, transform.position.y ))) // don't care about height in level (since he can't jump)
 				{
 					// we're currently not heading toward a position
 					MakeRandomChoice();
 				} 
-				else 
+				else  // perform the previous choice
 				{
-					// otherwise perform the last choice
 					PerformLastRandomChoice();
 				}
 			} 
@@ -121,50 +121,34 @@ public class GuardAI : BaseEnemy {
 	/// </summary>
 	protected void ChooseWanderLocation()
 	{
+		RaycastHit2D hit = Physics2D.Raycast(transform.position, facing, minimumWanderDistance);
 
-		Debug.Log("ChooseWanderLocation");
-		Vector2 randomDownwardAngle = Vector2.down + ( facing * Random.Range( MaxWanderAngle * 0.1f, MaxWanderAngle ) );
-		RaycastHit2D pointInFrontOfThis = Physics2D.Raycast( transform.position, randomDownwardAngle, 10f, _physicsLayer );
-		Easily.Instantiate(spoon, pointInFrontOfThis.point);
-
-		float floorYLevel = Physics2D.Raycast( transform.position, Vector2.down, 5f, _physicsLayer ).point.y;
-
-		// if the difference in height between the chosen point and the current floor is neglegible
-		if ( Mathf.Abs( pointInFrontOfThis.point.y - floorYLevel ) < 0.1f) 
-		{
-			// set _wanderPoint to hit position
-			_gotoPoint = new Vector2( pointInFrontOfThis.point.x, transform.position.y );
-		} 
-		else 
-		{
-			// make another choice 
-			nextRandomChoice = 0;
-		}
+		float x = Random.Range(minimumWanderDistance, maximumWanderDistance) * facing.x + transform.position.x;
+		_gotoPoint = new Vector2(x, transform.position.y);
+		Easily.Instantiate(spoon, _gotoPoint);
 	}
-
-	public GameObject spoon;
 
 	/// <summary>
 	/// Performs the last random choice.
 	/// </summary>
 	protected void PerformLastRandomChoice()
 	{
-		Debug.Log("PerformLastRandomChoice");
-		if ( ! isNearEnough( transform.position.x, _gotoPoint.x ) ) 
+		if ( ! IsNearEnough( transform.position.x, _gotoPoint.x ) ) 
 		{
 			// wander / return home
 			// this should determine if we've passed the target point
 			if ( ! _collider.OverlapPoint( _gotoPoint ) ) 
 			{
-				moveForward();
+				MoveForward();
 			} 
 			else 
 			{
 				_gotoPoint = transform.position;
 			}
 
-		} else {
-			// we're at the goto point and/or idling
+		}
+		else // we're at the goto point and/or idling
+		{
 			IdleBehavior();
 		}
 	}
@@ -175,7 +159,7 @@ public class GuardAI : BaseEnemy {
 		// if we're not near the target point
 		if ( ! _collider.OverlapPoint( _targetPoint ) ) 
 		{
-			faceTarget();
+			FaceTarget();
 
 			// see if there's a surface immediately ahead of us to walk on
 			RaycastHit2D hit = Physics2D.Raycast( this.transform.position, facing + Vector2.down, 1f, _physicsLayer );
@@ -183,12 +167,11 @@ public class GuardAI : BaseEnemy {
 			// if the target isn't above us (which would it even be?) 
 			if ( hit ) 
 			{
-				if( ! isNearEnough( hit.point.y, this.transform.position.y ) ) 
+				if( ! IsNearEnough( hit.point.y, this.transform.position.y ) ) 
 				{
-					moveForward();
+					MoveForward();
 				}
 			}
-
 		}
 	}
 }
