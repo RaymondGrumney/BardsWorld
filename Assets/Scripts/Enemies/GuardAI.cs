@@ -174,4 +174,26 @@ public class GuardAI : BaseEnemy {
 			}
 		}
 	}
+
+	private void OnCollisionStay2D(Collision2D collision)
+	{
+		// logic taken from https://gamedev.stackexchange.com/questions/11782/have-a-simple-enemy-detecting-he-touch-a-wall-to-make-him-stop-turn-around
+		bool hitWall = false;
+		foreach (ContactPoint2D contactPoint in collision.contacts)
+		{
+			float dot = Vector3.Dot(contactPoint.normal, transform.up);
+			if (dot < 1.0f && dot > -1.0f)
+			{
+				hitWall = true;
+				break;  //No need to keep checking once you've found a wall
+			}
+		}
+
+		if (hitWall)
+		{
+			//At least one collision was not with the floor (or ceiling)
+			//Handle wall collisions here
+			_gotoPoint = Easily.Clone(transform.position);
+		}
+	}
 }
