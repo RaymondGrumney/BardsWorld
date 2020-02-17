@@ -36,7 +36,7 @@ public class FieldOfVision : MonoBehaviour {
 
 		// TODO: this really shouldn't access timeToNoticeCharacter directly
 		if( _timeSeenCharacter > _baseEnemy.timeToNoticeCharacter ) {
-			_baseEnemy.setTarget( _lastSeen.gameObject );
+			_baseEnemy.SetTarget( _lastSeen.gameObject );
 			_timeSeenCharacter = 0;
 		}
 
@@ -63,7 +63,7 @@ public class FieldOfVision : MonoBehaviour {
 					_lastSeen = other;
 					Debug.Log( "OnTriggerStay() _lastSeen:" + _lastSeen );
 
-					_baseEnemy.setTarget( other.gameObject );
+					_baseEnemy.SetTarget( other.gameObject );
 				}
 			}
 

@@ -61,7 +61,7 @@ public class BatAI : BaseEnemy {
 			} else {
 
 				_hiding = false;
-				setTarget( other.gameObject );
+				SetTarget( other.gameObject );
 			}
 		} else {
 
@@ -97,7 +97,7 @@ public class BatAI : BaseEnemy {
 				return;
 			}
 
-			moveForward();
+			MoveForward();
 
 		}
 	}
@@ -121,14 +121,14 @@ public class BatAI : BaseEnemy {
 
 			// turn to face the character if
 			if (homesOnCharacter) {
-				faceTarget();
+				FaceTarget();
 			} else if( Mathf.Sign( ( _lastCharacterSeen.transform.position - transform.position ).x ) != _seenSign ) {
 				// forget the character
 				forgetPlayer();
 			}
 
 			// x is constant
-			moveForward();
+			MoveForward();
 
 
 			if (_rigidbody.velocity.y < fallingVelocity) {
@@ -160,14 +160,14 @@ public class BatAI : BaseEnemy {
 	/// Sets the target.
 	/// </summary>
 	/// <param name="target">Target.</param>
-	public override void setTarget(GameObject target) {
+	public override void SetTarget(GameObject target) {
 		if(! _pursuing) {
 			_pursuing = true;
 			_lastCharacterSeen = target;
 			_targetPoint = target.transform.position;
 			_lastSawCharacter = Time.time + timeToForget;
 
-			faceTarget();
+			FaceTarget();
 
 			_seenSign = Mathf.Sign( ( _lastCharacterSeen.transform.position - transform.position ).x );
 

@@ -17,13 +17,13 @@ public class Cockroach : BaseEnemy {
 		Debug.Log(this + " defaultBehaviour() _startingPoint.x: " + _startingPoint.x );
 		Debug.Log(this + " defaultBehaviour() distance: " + Mathf.Abs( transform.position.x - _startingPoint.x ) );
 		 
-		if ( !isNearEnough(  transform.position.x, _startingPoint.x )) {
+		if ( !IsNearEnough(  transform.position.x, _startingPoint.x )) {
 			
 			_targetPoint = _startingPoint;
 
 			// return to start location
-			faceTargetPoint();
-			moveForward();
+			FaceTargetPoint();
+			MoveForward();
 
 		// if idle
 		} else {
@@ -57,8 +57,8 @@ public class Cockroach : BaseEnemy {
 			// if not positioned near starting point
 		} else {
 			// move toward target
-			faceTargetPoint();
-			moveForward();
+			FaceTargetPoint();
+			MoveForward();
 		}
 	}
 

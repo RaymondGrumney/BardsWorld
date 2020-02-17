@@ -148,7 +148,8 @@ public abstract class BaseEnemy : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	protected virtual void Update () {
+	protected virtual void Update () 
+	{
 		if ( ForgetBehavior() ) {
 			DefaultBehavior();
 		} else {
@@ -198,7 +199,7 @@ public abstract class BaseEnemy : MonoBehaviour
 	/// <summary>
 	/// Faces the target point.
 	/// </summary>
-	protected void faceTargetPoint() 
+	protected void FaceTargetPoint() 
 	{
 		SetFacing( Mathf.Sign( ( (Vector3) _targetPoint - transform.position ).x ) );
 	}
@@ -206,7 +207,7 @@ public abstract class BaseEnemy : MonoBehaviour
 	/// <summary>
 	/// Faces the target.
 	/// </summary>
-	protected void faceTarget() 
+	protected void FaceTarget() 
 	{
 		SetFacing( Mathf.Sign( ( _lastCharacterSeen.transform.position - transform.position ).x ) );
 	}
@@ -215,7 +216,7 @@ public abstract class BaseEnemy : MonoBehaviour
 	/// Sets the target .
 	/// </summary>
 	/// <param name="targetPoint">Target point.</param>
-	public virtual void setTarget(GameObject target) 
+	public virtual void SetTarget(GameObject target) 
 	{
 		_pursuing = true;
 		_lastCharacterSeen = target;
@@ -230,7 +231,7 @@ public abstract class BaseEnemy : MonoBehaviour
 	/// <returns><c>true</c>, if a is near enough to be, by the moveMargin, <c>false</c> otherwise.</returns>
 	/// <param name="a">The alpha component.</param>
 	/// <param name="b">The blue component.</param>
-	protected bool isNearEnough(Vector2 a, Vector2 b) 
+	protected bool IsNearEnough(Vector2 a, Vector2 b) 
 	{
 		return MyUtilities.IsNearEnough( a, b, moveMargin );
 	}
@@ -242,7 +243,7 @@ public abstract class BaseEnemy : MonoBehaviour
 	/// <returns><c>true</c>, if a is near enough to be, by the moveMargin, <c>false</c> otherwise.</returns>
 	/// <param name="a">The alpha component.</param>
 	/// <param name="b">The blue component.</param>
-	protected bool isNearEnough(float a, float b) 
+	protected bool IsNearEnough(float a, float b) 
 	{
 		return MyUtilities.IsNearEnough( a, b, moveMargin );
 	}
@@ -251,10 +252,11 @@ public abstract class BaseEnemy : MonoBehaviour
 	/// <summary>
 	/// Moves in the direction th enemey is
 	/// </summary>
-	protected void moveForward() 
+	protected void MoveForward() 
 	{
-		if (_rigidbody.velocity.x < speed) {
-			_rigidbody.velocity =  facing * speed;
+		if (_rigidbody.velocity.x < speed) 
+		{
+			_rigidbody.velocity = new Vector2( facing.x * speed, _rigidbody.velocity.y);
 		}
 	}
 }
