@@ -1,3 +1,4 @@
+using CommonAssets.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,13 +12,10 @@ public class WaitToDestroy : MonoBehaviour
 	[Tooltip("How long to wait before destroying this game object.")]
 	public float Wait = 0.5f;
 
-	private IEnumerator coroutine;
-
 	// Use this for initialization
-	void Start () {
-		coroutine = DestroyAfterNSeconds(Wait);
-
-		StartCoroutine(coroutine);
+	void Start () 
+	{
+		StartCoroutine(DestroyAfterNSeconds(Wait));
 	}
 
 	private IEnumerator DestroyAfterNSeconds(float n)
