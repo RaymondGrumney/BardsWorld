@@ -100,7 +100,7 @@ public static class MyUtilities {
 	/// <returns>The chance per delta time.</returns>
 	public static bool CalculateChancePerDeltaTime( float chance ) 
 	{
-		if (!IsNearEnough(chance, 0f, 0.000001f) )
+		if (!IsNearEnough(chance, 0f, 0.01f) )
 		{
 			float r = Random.Range(0f, 1 - chance);
 			return r < Time.deltaTime;
