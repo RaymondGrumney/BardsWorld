@@ -352,7 +352,7 @@ public class GameController : MonoBehaviour {
 //		Debug.Log("activateCharacter c.controllingPlayer: " + c.controllingPlayer);
 
 		// show the life display for the character
-		c.GetComponentInChildren<LifeDisplay>().show(); // this should be moved to a function in Character, which passes the Show() command to it's LifeDisplay
+		c.GetComponentInChildren<LifeDisplay>().ShowLifeDisplay(); // this should be moved to a function in Character, which passes the Show() command to it's LifeDisplay
 	}
 
 
