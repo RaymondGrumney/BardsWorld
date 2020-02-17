@@ -63,17 +63,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Common\CommonAssets\DestroyWhenNoChildren.cs" />
+    <Compile Include="Assets\Common\CommonAssets\ExplodeSpriteOnDestroy.cs" />
     <Compile Include="Assets\Common\CommonAssets\Joypads\Input.cs" />
     <Compile Include="Assets\Common\CommonAssets\Joypads\Presets\JoypadPreset.Interface.cs" />
     <Compile Include="Assets\Common\CommonAssets\Joypads\Presets\Playstation4Joypad.cs" />
     <Compile Include="Assets\Common\CommonAssets\Joypads\Presets\SwitchJoypad.cs" />
     <Compile Include="Assets\Common\CommonAssets\Joypads\Presets\XInputJoypad.cs" />
     <Compile Include="Assets\Common\CommonAssets\Joypads\Read.cs" />
+    <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\CoroutineRunner.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\Easily.cs" />
+    <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\Flip.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\Get.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\Instantiator.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\KnockBack.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\Easily\SoundHelper.cs" />
+    <Compile Include="Assets\Common\CommonAssets\Utilities\SpriteEffect\Exploder.cs" />
+    <Compile Include="Assets\Common\CommonAssets\Utilities\SpriteEffect\Fader.cs" />
+    <Compile Include="Assets\Common\CommonAssets\Utilities\SpriteEffect\FaderComponent.cs" />
+    <Compile Include="Assets\Common\CommonAssets\Utilities\SpriteEffect\SpriteEffects.cs" />
     <Compile Include="Assets\Scripts\DefaultValues.cs" />
     <Compile Include="Assets\Scripts\Enemies\BaseEnemy.cs" />
     <Compile Include="Assets\Scripts\Enemies\BatAI.cs" />
@@ -134,7 +142,6 @@
     <Compile Include="Assets\Scripts\Objects\GrowingLadder.cs" />
     <Compile Include="Assets\Scripts\Objects\LadderZone.cs" />
     <Compile Include="Assets\Scripts\Objects\Modders\Colorizer.cs" />
-    <Compile Include="Assets\Scripts\Objects\Modders\FadeOut.cs" />
     <Compile Include="Assets\Scripts\Objects\Modders\FlickerColor.cs" />
     <Compile Include="Assets\Scripts\Objects\Modders\OscilateAplhaCuttoff.cs" />
     <Compile Include="Assets\Scripts\Objects\Modders\RollingMoveable.cs" />
