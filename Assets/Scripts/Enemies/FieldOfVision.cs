@@ -22,32 +22,28 @@ public class FieldOfVision : MonoBehaviour {
 	/// </summary>
 	private Collider2D _lastSeen;
 
-	// NOTE: this all assumes we only see one character at a time. I forsee problems . . .
-
-
-	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		_baseEnemy = GetComponentInParent<BaseEnemy>();
 	}
 		
 
-	void Update() {
+	void Update() 
+	{
 		// if we've noticed the character
-
-		// TODO: this really shouldn't access timeToNoticeCharacter directly
-		if( _timeSeenCharacter > _baseEnemy.timeToNoticeCharacter ) {
-			_baseEnemy.SetTarget( _lastSeen.gameObject );
+		if( _timeSeenCharacter > _baseEnemy.timeToNoticeCharacter ) 
+		{
+			SendMessageUpwards( "SetTarget", _lastSeen.gameObject );
 			_timeSeenCharacter = 0;
 		}
-
-		// TODO: handle when the character dies
 	}
 
 
-	void OnTriggerStay2D(Collider2D other) {
-
+	void OnTriggerStay2D(Collider2D other) 
+	{
 		// wait to notice player
-		if (other.tag == "Player") {
+		if (other.CompareTag("Player")) 
+		{
 			_lastSeen = other;
 
 			// TODO: darkness? ie. Light * deltatime
@@ -55,20 +51,18 @@ public class FieldOfVision : MonoBehaviour {
 		} 
 
 		// do the bait thing
-		if (_baseEnemy.attractedToBait) {
+		if (_baseEnemy.attractedToBait) 
+		{
 			Attributes attributes = other.GetComponent<Attributes>();
-			Debug.Log( "OnTriggerStay() attributes:" + attributes );
-			if (attributes != null) {
-				if (attributes.bait) {
+			if (attributes != null) 
+			{
+				if (attributes.bait) 
+				{
 					_lastSeen = other;
-					Debug.Log( "OnTriggerStay() _lastSeen:" + _lastSeen );
 
-					_baseEnemy.SetTarget( other.gameObject );
+					SendMessageUpwards("SetTarget", other.gameObject);
 				}
 			}
-
 		}
 	}
-
-
 }
