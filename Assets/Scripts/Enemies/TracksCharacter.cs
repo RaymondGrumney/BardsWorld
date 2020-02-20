@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TracksCharacter : BaseEnemy {
+public class TracksCharacter : BaseEnemyAI {
 
 	private Quaternion _initialRotation;
 	public GameObject pivot;
@@ -16,23 +16,23 @@ public class TracksCharacter : BaseEnemy {
 	}
 
 
-	protected override bool ForgetBehavior(){
+	public override bool ForgetBehavior(){
 		return true;
 
 	}
 
 
-	protected override void DefaultBehavior(){
+	public override void DefaultBehavior(){
 		// return to default angle
 	}
 
 
-	protected override void IdleBehavior(){
+	public override void IdleBehavior(){
 		// none
 	}
 
 
-	protected override void PursuitBehavior(){
+	public override void PursuitBehavior(){
 		// track target
 		transform.RotateAround( _pivot, Vector2.up, MyUtilities.AngleInDegrees( transform.position, _lastCharacterSeen.transform.position ) );
 	}

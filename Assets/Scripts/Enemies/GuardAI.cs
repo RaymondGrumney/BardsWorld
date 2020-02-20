@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GuardAI : BaseEnemy {
+public class GuardAI : BaseEnemyAI {
 
 	[Header("Guard AI Setting")]
 	[Tooltip("Likelihood the AI wanders from it's starting point.")]
@@ -15,27 +15,20 @@ public class GuardAI : BaseEnemy {
 	[Tooltip("Likelihood the AI stays idle.")]
 	public float idleChance;
 
-	[Tooltip("How often the AI makes the choice to wander, return home, or idle.")]
-	public float randomChoiceEveryNSeconds = 2f;
-
 	[Tooltip("Likelihood the AI turns while idling.")]
 	[Range(0, 1)]
 	public float turnChanceDuringIdle = 1f;
 
-	// when the last choice was made
-	protected float nextRandomChoice = 0;
-
-	public GameObject spoon;
 	public float maximumWanderDistance = 3f;
 	public float minimumWanderDistance = 1f;
 
 
 
 	// check if forgetten player 
-	protected override bool ForgetBehavior()
+	public override bool ForgetBehavior()
 	{
 		// if the enemy has forgotten it saw the character, return to starting point
-		if (_lastSawCharacter < Time.time) {
+		if (_lastSawCharacter + timeToForget < Time.time) {
 			_targetPoint = _startingPoint;
 			_pursuing = false;
 
@@ -48,16 +41,16 @@ public class GuardAI : BaseEnemy {
 
 
 	// idle 
-	protected override void IdleBehavior()
+	public override void IdleBehavior()
 	{ 
-		if ( MyUtilities.CalculateChancePerDeltaTime( turnChanceDuringIdle ) ) 
+		if ( MyUtilities.CalculateChancePerDeltaTime( turnChanceDuringIdle * Time.fixedDeltaTime ) ) 
 		{
 			SetFacing( -facing.x );
 		}
 	}
 
 
-	protected override void DefaultBehavior()
+	public override void DefaultBehavior()
 	{
 		if( !_pursuing ) 
 		{
@@ -88,7 +81,6 @@ public class GuardAI : BaseEnemy {
 	/// </summary>
 	protected void MakeRandomChoice()	
 	{
-		Debug.Log("MakeRandomChoice");
 		// set random choice timer
 		nextRandomChoice = Time.time + randomChoiceEveryNSeconds;
 
@@ -121,11 +113,10 @@ public class GuardAI : BaseEnemy {
 	/// </summary>
 	protected void ChooseWanderLocation()
 	{
-		RaycastHit2D hit = Physics2D.Raycast(transform.position, facing, minimumWanderDistance);
+		// RaycastHit2D hit = Physics2D.Raycast(transform.position, facing, minimumWanderDistance);
 
 		float x = Random.Range(minimumWanderDistance, maximumWanderDistance) * facing.x + transform.position.x;
 		_gotoPoint = new Vector2(x, transform.position.y);
-		Easily.Instantiate(spoon, _gotoPoint);
 	}
 
 	/// <summary>
@@ -154,24 +145,14 @@ public class GuardAI : BaseEnemy {
 	}
 
 	// pursuit behavior
-	protected override void PursuitBehavior() 
+	public override void PursuitBehavior() 
 	{
 		// if we're not near the target point
-		if ( ! _collider.OverlapPoint( _targetPoint ) ) 
+		if ( ! _collider.OverlapPoint( (Vector2) _targetPoint ) 
+			&& _targetPoint != null ) 
 		{
 			FaceTarget();
-
-			// see if there's a surface immediately ahead of us to walk on
-			RaycastHit2D hit = Physics2D.Raycast( this.transform.position, facing + Vector2.down, 1f, _physicsLayer );
-
-			// if the target isn't above us (which would it even be?) 
-			if ( hit ) 
-			{
-				if( ! IsNearEnough( hit.point.y, this.transform.position.y ) ) 
-				{
-					MoveForward();
-				}
-			}
+			MoveForward();
 		}
 	}
 

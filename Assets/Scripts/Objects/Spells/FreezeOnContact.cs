@@ -8,7 +8,7 @@ public class FreezeOnContact : MonoBehaviour {
 
 	// when an object comes into contact with this object
 	void OnCollisionEnter2D(Collision2D other) {
-		BaseEnemy enemy = other.gameObject.GetComponent<BaseEnemy>();
+		BaseEnemyAI enemy = other.gameObject.GetComponent<BaseEnemyAI>();
 
 		if(enemy) {
 			// freeze the enemy

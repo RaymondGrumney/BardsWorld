@@ -35,7 +35,7 @@ public class MagicSeed : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D other){
 
 		// check if enemy
-		BaseEnemy enemy = other.gameObject.GetComponent<BaseEnemy>();
+		BaseEnemyAI enemy = other.gameObject.GetComponent<BaseEnemyAI>();
 
 		if (enemy) {
 			spawnCage( enemy );
@@ -46,7 +46,7 @@ public class MagicSeed : MonoBehaviour {
 		}
 	}
 
-	void spawnCage(BaseEnemy enemy) {
+	void spawnCage(BaseEnemyAI enemy) {
 		// TODO: this
 	}
 

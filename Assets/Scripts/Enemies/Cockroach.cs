@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cockroach : BaseEnemy {
+public class Cockroach : BaseEnemyAI {
 
 //	if ( forgetBehavior() ) {
 //		defaultBehavior();
@@ -11,7 +11,7 @@ public class Cockroach : BaseEnemy {
 //	}
 
 	// what to do if not pursuing character
-	protected override void DefaultBehavior()
+	public override void DefaultBehavior()
 	{
 		Debug.Log(this + " defaultBehaviour() transform.position.x: " + transform.position.x );
 		Debug.Log(this + " defaultBehaviour() _startingPoint.x: " + _startingPoint.x );
@@ -31,20 +31,20 @@ public class Cockroach : BaseEnemy {
 		}
 	}
 
-	protected override void IdleBehavior()
+	public override void IdleBehavior()
 	{
 		Debug.Log( this + " idleBehaviour()" );
 		// does nothing
 		// TODO: random animation (clean antenna)
 	}
 
-	protected override bool ForgetBehavior()
+	public override bool ForgetBehavior()
 	{
 		// forgets if not eating and character has been outside of sight for timeToForget
 		return _lastSawCharacter + timeToForget < Time.time && baitEating == null;
 	}
 
-	protected override void PursuitBehavior()
+	public override void PursuitBehavior()
 	{
 		Debug.Log( this + " pursuitBehavior()" );
 		// if eating 

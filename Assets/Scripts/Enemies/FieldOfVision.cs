@@ -10,7 +10,7 @@ public class FieldOfVision : MonoBehaviour {
 	/// <summary>
 	/// The enemy script
 	/// </summary>
-	private BaseEnemy _baseEnemy;
+	private BaseEnemyAI _baseEnemy;
 
 	/// <summary>
 	/// The time the character was seen.
@@ -24,7 +24,7 @@ public class FieldOfVision : MonoBehaviour {
 
 	void Start () 
 	{
-		_baseEnemy = GetComponentInParent<BaseEnemy>();
+		_baseEnemy = GetComponentInParent<BaseEnemyAI>();
 	}
 		
 

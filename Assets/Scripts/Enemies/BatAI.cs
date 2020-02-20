@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatAI : BaseEnemy {
+public class BatAI : BaseEnemyAI {
 
 	[Header("Bat AI Settings")]
 	[Tooltip("How high we fly.")]
@@ -35,7 +35,7 @@ public class BatAI : BaseEnemy {
 	}
 
 
-	protected override bool ForgetBehavior() {
+	public override bool ForgetBehavior() {
 		
 		return _forgot;
 	}
@@ -85,7 +85,7 @@ public class BatAI : BaseEnemy {
 	/// <summary>
 	/// The AI's default behavior.
 	/// </summary>
-	protected override void DefaultBehavior() {
+	public override void DefaultBehavior() {
 	// this is where the bat retreats while hiding
 		if (_hiding) {
 
@@ -105,14 +105,14 @@ public class BatAI : BaseEnemy {
 	/// <summary>
 	/// The AI's idle behavior
 	/// </summary>
-	protected override void IdleBehavior() {
+	public override void IdleBehavior() {
 		// do nothing
 	}		
 
 	/// <summary>
 	/// the AI's pursuit.
 	/// </summary>
-	protected override void PursuitBehavior() {
+	public override void PursuitBehavior() {
 		if ( _pursuing ) {
 
 			// make sure gravity is turned on 
