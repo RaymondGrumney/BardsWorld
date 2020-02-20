@@ -126,14 +126,14 @@ public class Water : MonoBehaviour {
 			Character character = other.GetComponent<Character>();
 
 			if (character) {
-				if (!character.isSwimming && depth > other.bounds.extents.y) {
-					character.isSwimming = true;
+				if (!character.IsSwimming && depth > other.bounds.extents.y) {
+					character.IsSwimming = true;
 					character.Animator.SetBool( "inWater", true );
-					character.grounded = false;
+					character.Grounded = false;
 				} 
 
-				if(character.isSwimming && depth < other.bounds.extents.y) {
-					character.isSwimming = false;
+				if(character.IsSwimming && depth < other.bounds.extents.y) {
+					character.IsSwimming = false;
 					character.Animator.SetBool( "inWater", false );
 				}
 			}

@@ -5,64 +5,61 @@ using UnityEngine;
 /// <summary>
 /// An attack. Can be used on enemies (using a trigger), or on characters ( will need to call to performAttack() ).
 /// </summary>
-public class Attack : MonoBehaviour
-{
+public class ProjectileAttack : MonoBehaviour {
+
 	[Tooltip("The projectile / damage object.")]
 	public GameObject attackObject;
+
 	[Tooltip("Where the attack spawns.")]
 	public GameObject spawnPoint;
-
-	protected Animator _animator;
-
+	protected Collider2D _spawnPoint;
+	
 	[Tooltip("The amount of time between attacks (in seconds).")]
 	public float attackCooldown = 0.5f;
-	/// <summary>
-	/// When the player is able to perform the next attack
-	/// </summary>
+	
+	// when we can next perform an attack
 	protected float nextAttack = 0f;
 
-	[Tooltip("Whether this attack drops a shield component.")]
-	public float DropShieldForNSeconds = 0.1f;
-
-
 	// Use this for initialization
-	void Start()
-	{
-		GetComponents();
+	void Start () {
+		getComponents();
 	}
 
-	void GetComponents()
-	{
+
+	void getComponents() {
 		// TODO: this doesn't move with the parent?
-		_animator = GetComponentInParent<Animator>();
+		_spawnPoint = spawnPoint.GetComponent<Collider2D>();
+
 	}
 
 
-	void Update()
-	{
-		if (Joypad.Read.Buttons.Held("attack") && nextAttack < Time.time)
-		{
-			performAttack();
+	// When the player enters the trigger
+	void OnTriggerStay2D(Collider2D other) {
+		if (other.tag == "Player" && nextAttack < Time.time) {
+			performAttack( other.bounds.center );
 		}
 	}
 
 	/// <summary>
 	/// Performs the attack.
 	/// </summary>
-	public void performAttack()
-	{
+	public void performAttack( Vector2 vector ) {
+
 		// make the attack object
-		GameObject spawnedAttack = Instantiate(attackObject, spawnPoint.transform);
+		GameObject g = Instantiate( attackObject, _spawnPoint.bounds.center, Quaternion.identity );
+		TargetedMovement t = g.GetComponent<TargetedMovement>();
+
+		if (t != null) {
+			t.target( vector - (Vector2) g.transform.position );
+		}
 
 		// change it's Y rotation to this object's Y rotation
-		spawnedAttack.transform.Rotate(0, this.transform.rotation.y, 0);
+		g.transform.Rotate( 0, this.transform.rotation.y, 0 );
 
 		// set the attack object's layer to this object's layer to avoid friendly fire
-		spawnedAttack.layer = this.gameObject.layer;
+		g.layer = this.gameObject.layer;
 
-		BroadcastMessage("DropShield", DropShieldForNSeconds);
-
-		// set next attack time
+		// set nextAttack
 		nextAttack = Time.time + attackCooldown;
 	}
 }

@@ -85,7 +85,7 @@ public class GrabAndCarry : MonoBehaviour {
 	protected virtual void LateUpdate() {
 
 		// attempt to pick up objects
-		if ( _character.inputCheck() && Joypad.Read.Buttons.Held("pickup") ) {
+		if ( _character.InputCheck() && Joypad.Read.Buttons.Held("pickup") ) {
 			
 			// if not carrying an object
 			if (_carriedObject == null) {

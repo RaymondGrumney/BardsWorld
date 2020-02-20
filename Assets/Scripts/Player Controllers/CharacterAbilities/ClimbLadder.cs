@@ -72,7 +72,7 @@ public class ClimbLadder : MonoBehaviour {
 		if ( _character.gameObject.layer == ladderLayer && !_grabAndCarry.carrying ) {
 				
 			// 
-			if ( _character.inputCheck() && _character.CanMove ) {
+			if ( _character.InputCheck() && _character.CanMove ) {
 
 				_rigidbody.gravityScale = 0;
 				_character.Animator.SetBool( "Climbing", true );

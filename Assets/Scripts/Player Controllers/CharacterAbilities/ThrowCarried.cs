@@ -101,7 +101,7 @@ public class ThrowCarried : GrabAndCarry {
 	// overriding parent Update method
 	protected override void LateUpdate() {
 		
-		if ( _character.inputCheck() ) {
+		if ( _character.InputCheck() ) {
 
 			// attempt to pick up objects
 			if ( Joypad.Read.Buttons.Held("throw") && _carriedObject == null) {
@@ -138,7 +138,7 @@ public class ThrowCarried : GrabAndCarry {
 		if ( _canThrow && _carriedObject ) {
 			
 			// if either can throw while jumping or grounded
-			if ( canThrowWhileJumping || _character.grounded ) {
+			if ( canThrowWhileJumping || _character.Grounded ) {
 				
 				// when the player releases the action button
 				if (Joypad.Read.Buttons.Released("action")) {
@@ -163,7 +163,7 @@ public class ThrowCarried : GrabAndCarry {
 				} else if (Joypad.Read.Buttons.Held("action")) {
 
 					// if the player has held the action button long enough and is grounded
-					if (actionHeldTime > timeActionHeldToThrow && _character.grounded) {
+					if (actionHeldTime > timeActionHeldToThrow && _character.Grounded) {
 						_rigidbody.velocity = Vector2.zero;
 
 						drawAndModifyThrowTrajecory();

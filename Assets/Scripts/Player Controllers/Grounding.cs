@@ -51,7 +51,7 @@ public class Grounding : MonoBehaviour {
 	/// Raises the collision exit2 d event.
 	/// </summary>
 	void OnCollisionExit2D() {
-		_character.grounded = false;
+		_character.Grounded = false;
 	}
 
 	/// <summary>
@@ -59,7 +59,7 @@ public class Grounding : MonoBehaviour {
 	/// </summary>
 	void groundCharacter()
 	{
-		_character.grounded = true;
+		_character.Grounded = true;
 
 		// reset double jump flag
 		if (_doubleJump) {

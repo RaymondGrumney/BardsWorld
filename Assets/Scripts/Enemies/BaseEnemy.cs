@@ -92,14 +92,6 @@ public abstract class BaseEnemy : MonoBehaviour
 	/// </summary>
 	protected Vector2 _targetPoint; // TODO: this should be replaced by _gotoPoint?
 
-
-	[Header("Offensive")]
-	/// <summary>
-	/// The game object defining the enemy's attack.
-	/// </summary>
-	[Tooltip("The game object defining the enemy's attack.")]
-	public GameObject attack;
-
 	/// <summary>
 	/// The collider attached to this game object.
 	/// </summary>
@@ -250,7 +242,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
 
 	/// <summary>
-	/// Moves in the direction th enemey is
+	/// Moves towards _gotoPoint or _targetPoint
 	/// </summary>
 	protected void MoveForward() 
 	{

@@ -127,7 +127,7 @@ public class GameController : MonoBehaviour {
 	/// <param name="state">If set to <c>true</c> state.</param>
 	public void setReceivingInput (Player player, bool state) {
 
-		_characters[ player.currentCharacter ].receivingInput = state;
+		_characters[ player.currentCharacter ].ReceivingInput = state;
 
 	}
 
@@ -163,7 +163,7 @@ public class GameController : MonoBehaviour {
 
 				// disable character controll while this event is active
 				foreach( Player p in _currentEvent.controllingPlayers ) {
-					_characters[ p.currentCharacter ].receivingInput = false;
+					_characters[ p.currentCharacter ].ReceivingInput = false;
 				}
 			}
 
@@ -322,10 +322,10 @@ public class GameController : MonoBehaviour {
 		Character c = _characters[ characterNum ];
 
 		// deactivate current character
-		c.isActive = false;
-		c.receivingInput = false;
+		c.SetActive( false );
+		c.ReceivingInput = false;
 		c.CanMove = false;
-		c.stop();
+		c.Stop();
 	}
 
 
@@ -342,7 +342,7 @@ public class GameController : MonoBehaviour {
 
 		// activate new character
 		c.isActive = true;
-		c.receivingInput = true;
+		c.ReceivingInput = true;
 		c.CanMove = true;
 
 //		Debug.Log("activateCharacter c.controllingPlayer: " + c.controllingPlayer);
