@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\Common\CommonAssets\DestroyWhenNoChildren.cs" />
     <Compile Include="Assets\Common\CommonAssets\ExplodeSpriteOnDestroy.cs" />
+    <Compile Include="Assets\Common\CommonAssets\Joypads\History.cs" />
     <Compile Include="Assets\Common\CommonAssets\Joypads\Input.cs" />
     <Compile Include="Assets\Common\CommonAssets\Joypads\Presets\JoypadPreset.Interface.cs" />
     <Compile Include="Assets\Common\CommonAssets\Joypads\Presets\Playstation4Joypad.cs" />
@@ -175,9 +176,10 @@
     <Compile Include="Assets\Scripts\Player Controllers\Grounding.cs" />
     <Compile Include="Assets\Scripts\SFX\StandardSounds.cs" />
     <Compile Include="Assets\Scripts\Universal Abilities\DealsDamage.cs" />
-    <Compile Include="Assets\Scripts\Universal Abilities\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\Universal Abilities\KnockBackOnTouch.cs" />
-    <Compile Include="Assets\Scripts\Universal Abilities\Sheild.cs" />
+    <Compile Include="Assets\Scripts\Universal Abilities\MeleeAttack.cs" />
+    <Compile Include="Assets\Scripts\Universal Abilities\ProjectileAttack.cs" />
+    <Compile Include="Assets\Scripts\Universal Abilities\Shield.cs" />
     <Compile Include="Assets\Scripts\Universal Abilities\Stunable.cs" />
     <Compile Include="Assets\Scripts\Universal Abilities\TakesDamage.cs" />
     <None Include="Assets\Audio\8-bit-sound-effects-library - littlerobotsoundfactory\_readme_and_license.txt" />
