@@ -2,6 +2,7 @@
 *.meta
 # *.unity
 *.userprefs
+*.clip
 
 # dirs we shouldn't commit
 WinProto/
