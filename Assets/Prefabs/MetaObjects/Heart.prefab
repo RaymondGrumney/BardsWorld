@@ -71,7 +71,8 @@ SpriteRenderer:
   m_SortingLayerID: -2056771659
   m_SortingLayer: 9
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300016, guid: 53df493419dcbc94d8502931633a5dfa, type: 3}
+  m_Sprite: {fileID: -1755680275059609081, guid: ca7faaef1c939ab479659fb55af8cb48,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,8 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fc6f73d1ac07df47a996600196b21d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullHeart: {fileID: 21300004, guid: 14369c7831a4aad49b7ab5623872a726, type: 3}
-  emptyHeart: {fileID: 21300002, guid: 14369c7831a4aad49b7ab5623872a726, type: 3}
+  fullHeart: {fileID: -1755680275059609081, guid: ca7faaef1c939ab479659fb55af8cb48,
+    type: 3}
+  emptyHeart: {fileID: -4858378435505406105, guid: ca7faaef1c939ab479659fb55af8cb48,
+    type: 3}
   pulseScale: 0.1
   pulseTime: 1
   numPulses: 2

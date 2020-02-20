@@ -37,7 +37,8 @@ public class LifeDisplay : MonoBehaviour {
 
 	public float pieceFadeOutTime = 0.01f;
 
-	void OnValidate() {
+	void OnValidate() 
+	{
 		if(brokenHeartPiecePieces < 1) {
 			brokenHeartPiecePieces = 1;
 		}
@@ -104,7 +105,7 @@ public class LifeDisplay : MonoBehaviour {
 		_character = GetComponentInParent<Character>();
 		_takesDamage = GetComponentInParent<TakesDamage>();
 		_unbrokenHeartSprite = heartPrefab.GetComponent<SpriteRenderer>().sprite;
-		_heartWidth = heartPrefab.GetComponent<SpriteRenderer>().sprite.bounds.size.x;
+		_heartWidth = _unbrokenHeartSprite.bounds.size.x;
 	}
 
 	// initializes arrays and assigns game objects to them
