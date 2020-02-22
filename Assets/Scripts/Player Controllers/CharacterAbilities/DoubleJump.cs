@@ -51,7 +51,7 @@ public class DoubleJump : MakesNoise {
 		_animator.SetTrigger( "Jump" );
 	}
 
-	public void resetDoubleJumped() {
+	public void ResetDoubleJumped() {
 		_doubleJumped = false;
 	}
 }

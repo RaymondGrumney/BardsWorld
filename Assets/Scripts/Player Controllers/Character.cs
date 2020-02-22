@@ -203,6 +203,11 @@ public class Character : MonoBehaviour
 		}
 	}
 
+	public void GroundMe(bool state)
+	{
+		Grounded = state;
+	}
+
 	public bool Ducking() 
 	{
 		if ( Joypad.Read.Buttons.Held("down") )
