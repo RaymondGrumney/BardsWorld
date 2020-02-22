@@ -15,11 +15,6 @@ public class Shield : MonoBehaviour
 
     public AudioClip impactSound;
 
-    private void Awake()
-    {
-        
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if ( Time.time > ShieldDownUntil && collision.CompareTag("Attack") )

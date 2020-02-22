@@ -50,7 +50,7 @@ public class Water : MonoBehaviour {
 		DoubleJump doubleJump = other.GetComponent<DoubleJump>();
 
 		if (doubleJump) {
-			doubleJump.resetDoubleJumped();
+			doubleJump.ResetDoubleJumped();
 		}
 
 
