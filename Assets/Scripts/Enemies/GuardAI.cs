@@ -6,23 +6,39 @@ using UnityEngine;
 public class GuardAI : BaseEnemyAI {
 
 	[Header("Guard AI Setting")]
-	[Tooltip("Likelihood the AI wanders from it's starting point.")]
-	public float wanderChance;
-
-	[Tooltip("Likelihood the AI returns to it's starting point.")]
-	public float returnToHomeChance;
-
-	[Tooltip("Likelihood the AI stays idle.")]
-	public float idleChance;
-
-	[Tooltip("Likelihood the AI turns while idling.")]
-	[Range(0, 1)]
-	public float turnChanceDuringIdle = 1f;
 
 	public float maximumWanderDistance = 3f;
 	public float minimumWanderDistance = 1f;
 
+	public List<RandomChoice> RandomChoices = new List<RandomChoice>()
+	{
+		new RandomChoice()
+		{
+			Choice="ChooseWanderLocation",
+			Chance=7
+		},
+		new RandomChoice()
+		{
+			Choice="ReturnToHome",
+			Chance=3
+		},
+		new RandomChoice()
+		{
+			Choice="Idle",
+			Chance=3
+		},
+		new RandomChoice()
+		{
+			Choice="Turn",
+			Chance=3
+		}
+	};
 
+	protected override void Awake()
+	{
+		_randomChoices = RandomChoices;
+		base.Awake();
+	}
 
 	// check if forgetten player 
 	public override bool ForgetBehavior()
@@ -36,16 +52,6 @@ public class GuardAI : BaseEnemyAI {
 
 		} else {
 			return false;
-		}
-	}
-
-
-	// idle 
-	public override void IdleBehavior()
-	{ 
-		if ( MyUtilities.CalculateChancePerDeltaTime( turnChanceDuringIdle * Time.fixedDeltaTime ) ) 
-		{
-			SetFacing( -facing.x );
 		}
 	}
 
@@ -76,45 +82,39 @@ public class GuardAI : BaseEnemyAI {
 		}
 	}
 
-	/// <summary>
-	/// Makes a random choice.
-	/// </summary>
-	protected void MakeRandomChoice()	
+
+	public void ReturnToHome()
 	{
-		// set random choice timer
-		nextRandomChoice = Time.time + randomChoiceEveryNSeconds;
-
-		// how many choices we have
-		float choices = wanderChance + returnToHomeChance + idleChance;
-		// generate a random number
-		float r = Random.Range( 0f, choices );
-
-		if (r < wanderChance) 
+		if (_collider.OverlapPoint(_startingPoint))
 		{
-			// wander from starting point
-			ChooseWanderLocation();
-		} 
-		else if (r < wanderChance + returnToHomeChance) 
+			MakeRandomChoice();
+			// Or turn?
+		}
+		else
 		{
-			// go back to starting point
 			_gotoPoint = _startingPoint;
-			SetFacing( Mathf.Sign( _startingPoint.x - transform.position.x ) );
-		} 
-		else 
-		{
-			// idle 
-			_gotoPoint = transform.position;
+			SetFacing(Mathf.Sign(_startingPoint.x - transform.position.x));
 		}
 	}
+
+	public void Idle()
+	{
+		_gotoPoint = transform.position;
+	}
+
+	public void Turn()
+	{
+		SetFacing(-facing.x);
+	}
+
+	public override void IdleBehavior() { }
 
 
 	/// <summary>
 	/// Chooses the wander location.
 	/// </summary>
-	protected void ChooseWanderLocation()
+	public void ChooseWanderLocation()
 	{
-		// RaycastHit2D hit = Physics2D.Raycast(transform.position, facing, minimumWanderDistance);
-
 		float x = Random.Range(minimumWanderDistance, maximumWanderDistance) * facing.x + transform.position.x;
 		_gotoPoint = new Vector2(x, transform.position.y);
 	}
@@ -173,7 +173,6 @@ public class GuardAI : BaseEnemyAI {
 		if (hitWall)
 		{
 			//At least one collision was not with the floor (or ceiling)
-			//Handle wall collisions here
 			_gotoPoint = Easily.Clone(transform.position);
 		}
 	}
