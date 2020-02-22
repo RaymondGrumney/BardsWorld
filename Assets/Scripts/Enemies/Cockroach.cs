@@ -88,15 +88,15 @@ public class Cockroach : BaseEnemyAI {
 		}
 	}
 
-//	void OnCollisionExit2D( Collision2D other ) {
-//
-//		Attributes attributes = other.gameObject.GetComponent<Attributes>();
-//
-//		if (attributes != null) {
-//			if (attributes.bait) {
-//				baitEating = null;
-//			}
-//		}
-//	}
+	//	void OnCollisionExit2D( Collision2D other ) {
+	//
+	//		Attributes attributes = other.gameObject.GetComponent<Attributes>();
+	//
+	//		if (attributes != null) {
+	//			if (attributes.bait) {
+	//				baitEating = null;
+	//			}
+	//		}
+	//	}
 }
 

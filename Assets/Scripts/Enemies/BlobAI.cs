@@ -37,9 +37,7 @@ namespace Assets.Scripts.Enemies
 
         protected override void Awake()
         {
-            //_baseSpeed = speed;
-            _choices = RandomChoices;
-
+            _randomChoices = RandomChoices;
             base.Awake();
         }
 
@@ -108,7 +106,7 @@ namespace Assets.Scripts.Enemies
         {
             if ( _grounded )
             {
-                 _rigidbody.velocity = new Vector2(facing.x * speed, _rigidbody.velocity.y);
+                _rigidbody.velocity = new Vector2(facing.x * speed, _rigidbody.velocity.y);
             }
         }
 

@@ -134,7 +134,7 @@ public abstract class BaseEnemyAI : MonoBehaviour
 	// when the last choice was made
 	protected float nextRandomChoice = 0f;
 
-	protected List<RandomChoice> _choices;
+	protected List<RandomChoice> _randomChoices;
 	protected float _totalChance = 0f;
 
 	// Use this for initialization
@@ -147,9 +147,9 @@ public abstract class BaseEnemyAI : MonoBehaviour
 	/// </summary>
 	protected void initializationRoutine() 
 	{
-		if(_choices != null)
+		if(_randomChoices != null)
 		{
-			foreach(RandomChoice c in _choices)
+			foreach(RandomChoice c in _randomChoices)
 			{
 				_totalChance += c.Chance;
 			}
@@ -299,14 +299,14 @@ public abstract class BaseEnemyAI : MonoBehaviour
 		}
 	}
 
-	protected virtual string MakeRandomChoice( float? rng = null
+	protected virtual string MakeRandomChoice( float? rando = null
 		                                          , int i = 0
 		                                          , float previousChance = 0 )
 	{
 
-		if (rng == null)
+		if (rando == null)
 		{
-			rng = Random.Range(0f, _totalChance);
+			rando = Random.Range(0f, _totalChance);
 		}
 
 		string choice;
@@ -314,12 +314,13 @@ public abstract class BaseEnemyAI : MonoBehaviour
 		if (_totalChance - previousChance > 0)
 		{
 
-			if (rng < _choices[i].Chance + previousChance)
+			if (rando < _randomChoices[i].Chance + previousChance)
 			{
-				choice = _choices[i].Choice;
+				choice = _randomChoices[i].Choice;
 
 				if (choice != null)
 				{
+					nextRandomChoice += randomChoiceEveryNSeconds;
 					Type thisType = this.GetType();
 					MethodInfo theMethod = thisType?.GetMethod(choice);
 					theMethod?.Invoke(this, null); // null ref exception?
@@ -327,7 +328,9 @@ public abstract class BaseEnemyAI : MonoBehaviour
 			}
 			else
 			{
-				MakeRandomChoice(rng, i + 1, previousChance + _choices[i].Chance);
+				MakeRandomChoice( rando
+					            , i + 1
+								, previousChance + _randomChoices[i].Chance );
 			}
 		}
 
