@@ -59,6 +59,7 @@ public class Attack : MonoBehaviour
 
 		// set the attack object's layer to this object's layer to avoid friendly fire
 		spawnedAttack.layer = this.gameObject.layer;
+		spawnedAttack.GetComponent<DealsDamage>().spawnedBy = gameObject;
 
 		BroadcastMessage("DropShield", DropShieldForNSeconds);
 

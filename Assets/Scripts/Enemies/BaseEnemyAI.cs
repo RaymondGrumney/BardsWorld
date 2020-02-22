@@ -299,6 +299,13 @@ public abstract class BaseEnemyAI : MonoBehaviour
 		}
 	}
 
+	public void ThisHurtYou(GameObject that)
+	{
+		_targetPoint = that.transform.position;
+		_lastCharacterSeen = that;
+		_lastSawCharacter = Time.time;
+	}
+
 	protected virtual string MakeRandomChoice( float? rando = null
 		                                          , int i = 0
 		                                          , float previousChance = 0 )
