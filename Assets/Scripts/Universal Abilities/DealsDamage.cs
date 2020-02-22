@@ -27,6 +27,8 @@ public class DealsDamage : MonoBehaviour
 	[Tooltip("If the damage has been disabled.")]
 	public bool damageDisabled = false;
 
+	public bool OnTrigger = true;
+	public bool OnCollision = false;
 
 	// the two following method handle both the cases that the damage dealing object uses either:
 	//	1. a trigger (which you can pass through) 
@@ -36,13 +38,19 @@ public class DealsDamage : MonoBehaviour
 	// when something touches the collider
 	protected virtual void OnCollisionEnter2D(Collision2D other) 
 	{
-		StartCoroutine( Hit( other.gameObject ) );
+		if(OnCollision)
+		{
+			StartCoroutine( Hit( other.gameObject ) );
+		}
 	}
 
 	// when something enters the trigger
-	protected virtual void OnTriggerEnter2D(Collider2D other) {
-
-		StartCoroutine( Hit( other.gameObject ) );
+	protected virtual void OnTriggerEnter2D(Collider2D other) 
+	{
+		if (OnTrigger)
+		{
+			StartCoroutine( Hit( other.gameObject ) );
+		}
 	}
 
 
@@ -69,6 +77,10 @@ public class DealsDamage : MonoBehaviour
 			Easily.Instantiate( spawnOnImpact, spawnPosition );
 
 			other.SendMessage("TakeDamage", damage);
+
+			// TODO: Set target of enemy to player when it is hit. This script must know what object the Player Character is in the scene, but must avoid triggering when used by a non-Player object.
+			// BroadcastMessage("SetTarget", this.transform.parent );
+			// BroadcastMessage("SetTarget", this.gameObject );
 		}
 
 		// destroy if destroyOnImpact

@@ -144,6 +144,8 @@ MonoBehaviour:
   spawnPoint: {fileID: 0}
   destroyOnImpact: 0
   damageDisabled: 0
+  OnTrigger: 1
+  OnCollision: 0
 --- !u!60 &3068931038410367794
 PolygonCollider2D:
   m_ObjectHideFlags: 0
