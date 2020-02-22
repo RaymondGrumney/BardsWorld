@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using CommonAssets.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -97,18 +98,10 @@ public class TakesDamage : MonoBehaviour {
 		if (IsTakingDamage())
 		{
 			currentLife -= damage;
-
 			_damageTimeout = Time.time + standardDamageTimeout;     // prevent damage for the standard damage timeout
-			playHitSound();
-
+			Easily.PlaySound(hitSound, transform.position);
 			BroadcastMessage("AdjustLifeDisplayDown", damage, SendMessageOptions.DontRequireReceiver);
-
-			// spawn SpawnOnImpact object
-			if (spawnOnDamage != null)
-			{
-				Instantiate(spawnOnDamage, this.transform.position, Quaternion.identity);
-				spawnOnDamage = null;
-			}
+			Easily.Instantiate(spawnOnDamage, transform.position);
 		}
 
 		return currentLife;
@@ -126,15 +119,6 @@ public class TakesDamage : MonoBehaviour {
 		return _damageTimeout < Time.time && takingDamage;
 	}
 
-
-	/// <summary>
-	/// Plays the hit sound.
-	/// </summary>
-	public void playHitSound() {
-		if (hitSound != null) { 
-			AudioSource.PlayClipAtPoint( hitSound, transform.position );
-		}
-	}
 
 	// called when the object reaches 0 life
 	private void death() {
