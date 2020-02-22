@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc7b5b7c5ad27da46805fd610ddfbbc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onPickupSFX: {fileID: 0}
+  onPickupSFX: {fileID: 8300000, guid: 5adaca0f2408d8f49a8fdd1542459b2f, type: 3}
   rotationSpeed: 2.5
 --- !u!58 &58953500121411868
 CircleCollider2D:
