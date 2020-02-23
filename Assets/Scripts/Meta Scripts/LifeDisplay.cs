@@ -35,6 +35,8 @@ public class LifeDisplay : MonoBehaviour {
 	/// </summary>
 	public int brokenHeartPiecePieces;
 
+	private Quaternion _initialRotation;
+
 	public float pieceFadeOutTime = 0.01f;
 
 	void OnValidate() 
@@ -90,6 +92,8 @@ public class LifeDisplay : MonoBehaviour {
 		ExtractValues();
 		InitializeHeartDisplays();
 
+		_initialRotation = transform.rotation;
+
 		// if for some reason current and max health are not the same, update the display
 		AdjustLifeDisplayUp(0);
 	}
@@ -138,8 +142,10 @@ public class LifeDisplay : MonoBehaviour {
 	// Update is called once per frame
 	void Update()
 	{
-		if (fadeOutTime > Time.time) {
-			
+		transform.rotation = _initialRotation;
+
+		if (fadeOutTime > Time.time) 
+		{	
 			// if we are still displaying, haven't entered _fadeOutTime, and alpha is less than 1
 			if (fadeOutTime - fadeoutTime > Time.time && _alpha < 1) {
 				_alpha += Time.deltaTime / fadeoutTime;									// step up alpha
@@ -151,7 +157,9 @@ public class LifeDisplay : MonoBehaviour {
 				_alpha -= Time.deltaTime / fadeoutTime;	
 				updateAlpha();
 			}
-		} else if (_alpha > 0) {
+		} 
+		else if (_alpha > 0) 
+		{
 			_alpha = 0;
 			updateAlpha();
 		}
