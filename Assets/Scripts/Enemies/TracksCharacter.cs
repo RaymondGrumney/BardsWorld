@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,20 +10,22 @@ public class TracksCharacter : BaseEnemyAI {
 	private Vector3 _pivot;
 
 	// Use this for initialization
-	void Start() {
-		initializationRoutine();
+	void Start() 
+	{
+		InitializationRoutine();
 		_initialRotation = transform.rotation;
 		_pivot = pivot.transform.position;
 	}
 
 
-	public override bool ForgetBehavior(){
+	public override bool ForgetBehavior()
+	{
 		return true;
-
 	}
 
 
-	public override void DefaultBehavior(){
+	public override void DefaultBehavior()
+	{
 		// return to default angle
 	}
 
@@ -32,8 +35,16 @@ public class TracksCharacter : BaseEnemyAI {
 	}
 
 
-	public override void PursuitBehavior(){
+	public override void PursuitBehavior()
+	{
 		// track target
-		transform.RotateAround( _pivot, Vector2.up, MyUtilities.AngleInDegrees( transform.position, _lastCharacterSeen.transform.position ) );
+		transform.RotateAround( _pivot
+			                  , Vector2.up
+							  , MyUtilities.AngleInDegrees( transform.position, _gotoPoint ) );
+	}
+
+	public override void SetTarget(GameObject target)
+	{
+		base.SetTarget(target);
 	}
 }
