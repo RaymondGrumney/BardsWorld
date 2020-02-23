@@ -22,7 +22,7 @@ public class Cockroach : BaseEnemyAI {
 			_targetPoint = _startingPoint;
 
 			// return to start location
-			FaceTargetPoint();
+			FaceTarget();
 			MoveForward();
 
 		// if idle
@@ -57,7 +57,7 @@ public class Cockroach : BaseEnemyAI {
 			// if not positioned near starting point
 		} else {
 			// move toward target
-			FaceTargetPoint();
+			FaceTarget();
 			MoveForward();
 		}
 	}

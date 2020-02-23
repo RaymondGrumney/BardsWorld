@@ -34,23 +34,20 @@ public class GuardAI : BaseEnemyAI {
 		}
 	};
 
-	protected override void Awake()
-	{
-		_randomChoices = RandomChoices;
-		base.Awake();
-	}
-
 	// check if forgetten player 
 	public override bool ForgetBehavior()
 	{
 		// if the enemy has forgotten it saw the character, return to starting point
-		if (_lastSawCharacter + timeToForget < Time.time) {
+		if ( base.ForgetBehavior() ) 
+		{
 			_targetPoint = _startingPoint;
 			_pursuing = false;
 
 			return true;
 
-		} else {
+		} 
+		else 
+		{
 			return false;
 		}
 	}
@@ -67,7 +64,7 @@ public class GuardAI : BaseEnemyAI {
 				if ( _collider.OverlapPoint( new Vector2( _gotoPoint.x, transform.position.y ))) // don't care about height in level (since he can't jump)
 				{
 					// we're currently not heading toward a position
-					MakeRandomChoice();
+					MakeRandomChoice(RandomChoices);
 				} 
 				else  // perform the previous choice
 				{
@@ -87,7 +84,7 @@ public class GuardAI : BaseEnemyAI {
 	{
 		if (_collider.OverlapPoint(_startingPoint))
 		{
-			MakeRandomChoice();
+			MakeRandomChoice(RandomChoices);
 			// Or turn?
 		}
 		else
@@ -144,35 +141,10 @@ public class GuardAI : BaseEnemyAI {
 		}
 	}
 
-	// pursuit behavior
-	public override void PursuitBehavior() 
-	{
-		// if we're not near the target point
-		if ( ! _collider.OverlapPoint( (Vector2) _targetPoint ) 
-			&& _targetPoint != null ) 
-		{
-			FaceTarget();
-			MoveForward();
-		}
-	}
-
 	private void OnCollisionStay2D(Collision2D collision)
 	{
-		// logic taken from https://gamedev.stackexchange.com/questions/11782/have-a-simple-enemy-detecting-he-touch-a-wall-to-make-him-stop-turn-around
-		bool hitWall = false;
-		foreach (ContactPoint2D contactPoint in collision.contacts)
+		if (HitWall(collision))
 		{
-			float dot = Vector3.Dot(contactPoint.normal, transform.up);
-			if (dot < 1.0f && dot > -1.0f)
-			{
-				hitWall = true;
-				break;  //No need to keep checking once you've found a wall
-			}
-		}
-
-		if (hitWall)
-		{
-			//At least one collision was not with the floor (or ceiling)
 			_gotoPoint = Easily.Clone(transform.position);
 		}
 	}

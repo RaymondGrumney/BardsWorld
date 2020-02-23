@@ -85,11 +85,6 @@ public abstract class BaseEnemyAI : MonoBehaviour
 	public float timeToForget = 3;
 
 	/// <summary>
-	/// The last character seen.
-	/// </summary>
-	protected GameObject _lastCharacterSeen;
-
-	/// <summary>
 	/// When the character was last seen
 	/// </summary>
 	protected float _lastSawCharacter;
@@ -134,31 +129,24 @@ public abstract class BaseEnemyAI : MonoBehaviour
 	// when the last choice was made
 	protected float nextRandomChoice = 0f;
 
-	protected List<RandomChoice> _randomChoices;
-	protected float _totalChance = 0f;
+	private bool _active = true;
 
 	// Use this for initialization
-	protected virtual void Awake () {
-		initializationRoutine();
+	protected virtual void Awake () 
+	{
+		InitializationRoutine();
 	}
 
 	/// <summary>
 	/// Initializes references for this object.
 	/// </summary>
-	protected void initializationRoutine() 
+	protected void InitializationRoutine() 
 	{
-		if(_randomChoices != null)
-		{
-			foreach(RandomChoice c in _randomChoices)
-			{
-				_totalChance += c.Chance;
-			}
-		}
-
 		_startingPoint = transform.position;
 		_gotoPoint = transform.position;
 		_targetPoint = transform.position;
 		_physicsLayer = gameObject.layer;
+		_lastSawCharacter = -timeToForget * 2;
 
 		_rigidbody = GetComponent<Rigidbody2D>();
 		_collider = GetComponent<Collider2D>();
@@ -167,10 +155,16 @@ public abstract class BaseEnemyAI : MonoBehaviour
 	// Update is called once per frame
 	protected virtual void Update () 
 	{
-		if ( ForgetBehavior() ) {
-			DefaultBehavior();
-		} else {
-			PursuitBehavior();
+		if (_active)
+		{
+			if (ForgetBehavior())
+			{
+				DefaultBehavior();
+			}
+			else
+			{
+				PursuitBehavior();
+			}
 		}
 	}
 
@@ -179,7 +173,15 @@ public abstract class BaseEnemyAI : MonoBehaviour
 	/// Checks if the enemy has forgotten the character and performs the forget behavior if so
 	/// </summary>
 	/// <returns><c>true</c>, the enemy has forgotten the character, <c>false</c> otherwise.</returns>
-	public abstract bool ForgetBehavior();
+	public virtual bool ForgetBehavior() 
+	{
+		return _lastSawCharacter + timeToForget < Time.time;
+	}
+
+	public void SetActive(bool state)
+	{
+		_active = state;
+	}
 
 	/// <summary>
 	/// What to do if not pursuing the player
@@ -194,7 +196,16 @@ public abstract class BaseEnemyAI : MonoBehaviour
 	/// <summary>
 	/// Check if are pursuing a character and performs pursuit behavior if so
 	/// </summary>
-	public abstract void PursuitBehavior();
+	public virtual void PursuitBehavior()
+	{
+		// if we're not near the target point
+		if (!_collider.OverlapPoint((Vector2)_targetPoint)
+			&& _targetPoint != null)
+		{
+			FaceTarget();
+			MoveForward();
+		}
+	}
 
 
 	/// <summary>
@@ -205,7 +216,8 @@ public abstract class BaseEnemyAI : MonoBehaviour
 	{	
 		newFacing = Mathf.Sign( newFacing );
 
-		if ( facing.x != newFacing ) {
+		if ( facing.x != newFacing ) 
+		{
 			facing.x = newFacing;
 
 			// rotate Y to 180 if facing left or to 0 if facing right	
@@ -214,19 +226,13 @@ public abstract class BaseEnemyAI : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Faces the target point.
-	/// </summary>
-	protected void FaceTargetPoint() 
-	{
-		SetFacing( Mathf.Sign( ( (Vector3) _targetPoint - transform.position ).x ) );
-	}
-
-	/// <summary>
 	/// Faces the target.
 	/// </summary>
 	protected void FaceTarget() 
 	{
-		SetFacing( Mathf.Sign( ( _lastCharacterSeen.transform.position - transform.position ).x ) );
+		Vector2 diff = (Vector2)_targetPoint - (Vector2)transform.position;
+		float facing = Mathf.Sign( diff.x );
+		SetFacing( facing );
 	}
 
 	/// <summary>
@@ -236,8 +242,8 @@ public abstract class BaseEnemyAI : MonoBehaviour
 	public virtual void SetTarget(GameObject target) 
 	{
 		_pursuing = true;
-		_lastCharacterSeen = target;
 		_targetPoint = target.transform.position;
+		_gotoPoint = (Vector2) _targetPoint;
 		_lastSawCharacter = Time.time + timeToForget;
 	}
 
@@ -302,28 +308,36 @@ public abstract class BaseEnemyAI : MonoBehaviour
 	public void ThisHurtYou(GameObject that)
 	{
 		_targetPoint = that.transform.position;
-		_lastCharacterSeen = that;
 		_lastSawCharacter = Time.time;
 	}
 
-	protected virtual string MakeRandomChoice( float? rando = null
-		                                          , int i = 0
-		                                          , float previousChance = 0 )
+	protected virtual void MakeRandomChoice( List<RandomChoice> choices
+		                                     , float? rando = null
+		                                     , int i = 0
+		                                     , float previousChance = 0
+		                                     , float? totalChance = null ) // TODO: this probably doesn't need to be recursive
 	{
+		if(totalChance == null)
+		{
+			totalChance = 0;
+			foreach(RandomChoice c in choices)
+			{
+				totalChance += c.Chance;
+			}
+		}
 
 		if (rando == null)
 		{
-			rando = Random.Range(0f, _totalChance);
+			rando = Random.Range(0f, (float)totalChance);
 		}
 
 		string choice;
 
-		if (_totalChance - previousChance > 0)
+		if (totalChance - previousChance > 0)
 		{
-
-			if (rando < _randomChoices[i].Chance + previousChance)
+			if (rando < choices[i].Chance + previousChance)
 			{
-				choice = _randomChoices[i].Choice;
+				choice = choices[i].Choice;
 
 				if (choice != null)
 				{
@@ -335,13 +349,58 @@ public abstract class BaseEnemyAI : MonoBehaviour
 			}
 			else
 			{
-				MakeRandomChoice( rando
+				MakeRandomChoice( choices
+								, rando
 					            , i + 1
-								, previousChance + _randomChoices[i].Chance );
+								, previousChance + choices[i].Chance
+								, totalChance );
+			}
+		}
+	}
+
+	protected bool HitWall(Collision2D collision)
+	{
+		// logic taken from https://gamedev.stackexchange.com/questions/11782/have-a-simple-enemy-detecting-he-touch-a-wall-to-make-him-stop-turn-around
+		foreach (ContactPoint2D contactPoint in collision.contacts)
+		{
+			float dot = Vector3.Dot(contactPoint.normal, transform.up);
+			if (dot < 1.0f && dot > -1.0f)
+			{
+				return true;
 			}
 		}
 
-		return null;
+		return false;
+	}
+
+	protected bool HitCeiling(Collision2D collision)
+	{
+		foreach (ContactPoint2D contactPoint in collision.contacts)
+		{
+			float dot = Vector3.Dot(contactPoint.normal, transform.right);
+			Vector2 diff = (Vector2)transform.position - collision.contacts[0].point;
+			if (dot < 1.0f && dot > -1.0f && diff.y < 0)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	protected bool HitFloor(Collision2D collision)
+	{
+		foreach (ContactPoint2D contactPoint in collision.contacts)
+		{
+			float dot = Vector3.Dot(contactPoint.normal, transform.right);
+			Vector2 diff = (Vector2)transform.position.normalized - collision.contacts[0].point.normalized;
+			if (dot > 1.0f && dot < -1.0f && diff.y < 0)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
 

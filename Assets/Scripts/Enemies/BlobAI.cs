@@ -13,7 +13,7 @@ namespace Assets.Scripts.Enemies
     public class BlobAI : BaseEnemyAI
     {
         [Header("Blob AI Setting")]
-        new public List<RandomChoice> RandomChoices = new List<RandomChoice>()
+        public List<RandomChoice> RandomChoices = new List<RandomChoice>()
         {
             new RandomChoice()
             {
@@ -35,24 +35,19 @@ namespace Assets.Scripts.Enemies
         private bool _grounded;
         public float jumpChanceDuringPursuit = 0.01f;
 
-        protected override void Awake()
-        {
-            _randomChoices = RandomChoices;
-            base.Awake();
-        }
 
         public override void DefaultBehavior()
         {
             if(nextRandomChoice < Time.time)
             {
                 nextRandomChoice += randomChoiceEveryNSeconds;
-                MakeRandomChoice();
+                MakeRandomChoice(RandomChoices);
             }
         }
 
         public override bool ForgetBehavior()
         {
-            if( _lastSawCharacter + timeToForget < Time.time )
+            if( base.ForgetBehavior() )
             {
                 _targetPoint = null;
                 return true;
