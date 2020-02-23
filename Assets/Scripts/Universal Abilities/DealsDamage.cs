@@ -6,11 +6,10 @@ using UnityEngine;
 
 public class DealsDamage : MonoBehaviour 
 {
-
-	
 	[Tooltip("The damage this deals.")]
 	public int damage = 1;
 	public Vector2 knockBackForce = DefaultValues.KnockBackForce;
+	public float StunTime = DefaultValues.StunTime;
 
 	[Tooltip("The sound we play on impact.")]
 	public AudioClip impactSound;
@@ -62,34 +61,34 @@ public class DealsDamage : MonoBehaviour
 	/// <param name="other">The Object we're hitting.</param>
 	IEnumerator Hit(GameObject other) 
 	{
-		// wait until next FixedUpdate
+		// wait until end of frame. This allows shield to disable damage
 		yield return new WaitForEndOfFrame();
 
 		// deal damage
-		if (!damageDisabled)
+		if ( !damageDisabled )
 		{
 			Easily.PlaySound(impactSound, transform.position);
-
-			// knockback
-			Easily.Knock(other).Back(knockBackForce).From(gameObject);
+			Easily.Knock(other).Back(knockBackForce).From(gameObject).StunningFor(StunTime);
 
 			// Spawn object at spawnPoint or, if none defined at the center of this object
-			Vector3 spawnPosition = transform.localPosition;
-			if (spawnPoint is null) { spawnPosition = spawnPoint.transform.localPosition; }
-			Easily.Instantiate( spawnOnImpact, spawnPosition );
+			SpawnObject();
 
 			other.SendMessage("TakeDamage", damage);
 			other.SendMessage("ThisHurtYou", spawnedBy);
-
-			// TODO: Set target of enemy to player when it is hit. This script must know what object the Player Character is in the scene, but must avoid triggering when used by a non-Player object.
-			// BroadcastMessage("SetTarget", this.transform.parent );
-			// BroadcastMessage("SetTarget", this.gameObject );
 		}
 
 		// destroy if destroyOnImpact
-		if (destroyOnImpact) {
-			Destroy( this.gameObject );
+		if (destroyOnImpact) 
+		{
+			Destroy( this.gameObject ); // TODO: Move this into it's own script
 		}
+	}
+
+	private void SpawnObject()
+	{
+		Vector3 spawnPosition = transform.localPosition;
+		if (spawnPoint is null) { spawnPosition = spawnPoint.transform.localPosition; }
+		Easily.Instantiate(spawnOnImpact, spawnPosition);
 	}
 
 	/// <summary>
