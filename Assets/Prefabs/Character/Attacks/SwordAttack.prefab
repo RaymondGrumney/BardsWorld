@@ -146,6 +146,7 @@ MonoBehaviour:
   damageDisabled: 0
   OnTrigger: 1
   OnCollision: 0
+  spawnedBy: {fileID: 0}
 --- !u!60 &3068931038410367794
 PolygonCollider2D:
   m_ObjectHideFlags: 0
