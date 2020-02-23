@@ -83,9 +83,11 @@
     <Compile Include="Assets\Common\CommonAssets\Utilities\SpriteEffect\Fader.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\SpriteEffect\FaderComponent.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\SpriteEffect\SpriteEffects.cs" />
+    <Compile Include="Assets\FacesPlayer.cs" />
     <Compile Include="Assets\Scripts\DefaultValues.cs" />
     <Compile Include="Assets\Scripts\Enemies\BaseEnemyAI.cs" />
     <Compile Include="Assets\Scripts\Enemies\BatAI.cs" />
+    <Compile Include="Assets\Scripts\Enemies\BatAI2.cs" />
     <Compile Include="Assets\Scripts\Enemies\BlobAI.cs" />
     <Compile Include="Assets\Scripts\Enemies\Cockroach.cs" />
     <Compile Include="Assets\Scripts\Enemies\DropOnTrigger.cs" />
