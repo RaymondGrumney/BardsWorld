@@ -12,3 +12,6 @@ obj/
 Library/
 Temp/
 .vs/
+
+Assets/Audio/8-bit-sound-effects-library - littlerobotsoundfactory
+*.mp3
