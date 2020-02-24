@@ -17,6 +17,6 @@ public class Stunable : MonoBehaviour
 	{
 		yield return new WaitForSecondsRealtime(time);
 
-		gameObject.BroadcastMessage("SetActive", true);
+		gameObject.SendMessage("SetActive", true);
 	}
 }
