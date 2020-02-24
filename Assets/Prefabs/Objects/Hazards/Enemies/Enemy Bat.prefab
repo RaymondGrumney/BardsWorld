@@ -76,6 +76,8 @@ GameObject:
   - component: {fileID: 574195864}
   - component: {fileID: 574195869}
   - component: {fileID: 5985628055370970494}
+  - component: {fileID: 1487561036}
+  - component: {fileID: 1487561037}
   m_Layer: 11
   m_Name: Enemy Bat
   m_TagString: Player
@@ -137,8 +139,9 @@ SpriteRenderer:
   m_SortingLayerID: -497963441
   m_SortingLayer: 4
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300002, guid: b4aa4699d7e38b24a830667406abe369, type: 3}
-  m_Color: {r: 0.22794116, g: 0.1944204, b: 0.1944204, a: 1}
+  m_Sprite: {fileID: -5411765489035493988, guid: d0ed2c9199b022c4d81a547c699eacd0,
+    type: 3}
+  m_Color: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -267,5 +270,38 @@ MonoBehaviour:
   howLongEatsBait: 2
   debugObject: {fileID: 0}
   randomChoiceEveryNSeconds: 2
-  DistanceDropsFromCeiling: 2
+  DistanceDropsFromCeiling: 5
   TimeHidesBeforePursuing: 6
+  BounceForceOnCollision: {x: 8, y: 3}
+  StunLengthOnCollision: 0.2
+--- !u!114 &1487561036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222622860781050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150d9d85e2f7b714ea22c19c81994ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &1487561037
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222622860781050}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 96d78517759854c499062e2c99a59ff3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

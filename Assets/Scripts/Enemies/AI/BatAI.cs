@@ -3,22 +3,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatAI2 : BaseEnemyAI
+public class BatAI : BaseEnemyAI
 {
-    public float DistanceDropsFromCeiling = 2f;
+    [Header("Bat AI Settings")]
+    [Tooltip("How far the bat will drop from the ceiling at the begining of pursuit.")]
+    public float DistanceDropsFromCeiling = 5f;
+    /// <summary>
+    /// Whether the Bat is dropping (at begining of Pursuit loop)
+    /// </summary>
     private bool _dropping;
 
+    [Tooltip("How long the bat will hide after hitting the player and finding a roost.")]
     public float TimeHidesBeforePursuing = 6f;
-    private float _timeHiding = 0f;
+    /// <summary>
+    /// When the bat started hiding.
+    /// </summary>
+    private float _timeStopsHiding = 0f;
+    /// <summary>
+    /// If the bat is hiding.
+    /// </summary>
     private bool _hiding = true;
 
+    [Tooltip("How the bat bounces when hitting a surface during flight.")]
+    public Vector2 BounceForceOnCollision = DefaultValues.KnockBackForce;
+    [Tooltip("How long the Bat is inactive after hitting a surface during flight.")]
+    public float StunLengthOnCollision = 0.2f;
+
+    /// <summary>
+    /// Whether the bat is fleeing the player.
+    /// </summary>
     private bool _fleeing = false;
 
-    public override void DefaultBehavior() // flee
+    protected override void Update()
     {
-        if( !_hiding )
+        SetFacing(Mathf.Sign(_rigidbody.velocity.x));
+        base.Update();
+    }
+
+    public override void DefaultBehavior()
+    {
+        if (!_hiding)
         {
-            MoveForward();
+            MoveForward(); // flee
         }
         else
         {
@@ -26,82 +52,94 @@ public class BatAI2 : BaseEnemyAI
         }
     }
 
-    protected override void Awake()
-    {
-        _timeHiding = TimeHidesBeforePursuing * -2;
-        base.Awake();
-    }
-
-    public override bool ForgetBehavior()
-    {
-        return base.ForgetBehavior();
-    }
-
     public override void IdleBehavior() // hide
     {
         // MakeRandomChoice();
     }
 
-    public void DealtDamage(bool state)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(state)
-        {
-            //RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, diff, 100f, _physicsLayer);
-        }
-    }
-
-    private void OnCollisionEnter2D( Collision2D collision )
-    {
-        if ( _fleeing )
+        if (_fleeing)
         {
             if ( HitCeiling(collision)
-                 && collision.gameObject.CompareTag( "Untagged" ))
+                 && collision.gameObject.CompareTag("Untagged"))
             {
-                _fleeing = false;
-                _pursuing = false;
-                _hiding = true;
-                _timeHiding = Time.time;
-
-                _gotoPoint = _rigidbody.position;
-                _rigidbody.velocity = Vector2.zero;
+                Hide();
             }
         }
-        else if (_hiding) { }
         else if (_pursuing)
         {
-            Vector2 diff = (_rigidbody.position - _gotoPoint).normalized;
-
-            if (collision.gameObject.CompareTag("Player"))
+            if ( collision.gameObject.CompareTag("Player"))
             {
-                _pursuing = false;
-                _fleeing = true;
-                _hiding = false;
-
-                _gotoPoint = diff * 100;
+                Flee();
             }
             else
             {
-                Easily.Knock(this.gameObject).Back(diff * speed);
+                BounceOffSurface();
             }
         }
+    }
+
+    /// <summary>
+    /// Hide on the ceiling before pursuing again.
+    /// </summary>
+    private void Hide()
+    {
+        _fleeing = false;
+        _pursuing = false;
+        _hiding = true;
+        _timeStopsHiding = Time.time + TimeHidesBeforePursuing;
+
+        _gotoPoint = _rigidbody.position;
+        _rigidbody.velocity = Vector2.zero;
+        _animator.SetBool("Flying", false);
+    }
+
+    private void BounceOffSurface()
+    {
+        float reverseVelocity_Y = Mathf.Sign(_rigidbody.velocity.y);
+        Vector2 approximateNextFramePosition = (Vector2)transform.position + (_rigidbody.velocity.normalized * speed);
+        Vector2 fixedBounceForce = new Vector2(-BounceForceOnCollision.x, BounceForceOnCollision.y * reverseVelocity_Y);
+        Easily.Knock(this.gameObject)
+              .Back(fixedBounceForce)
+              .From(approximateNextFramePosition)
+              .StunningFor(StunLengthOnCollision);
+    }
+
+    private void Flee()
+    {
+        float reverseVelocity_X = -Mathf.Sign(_rigidbody.velocity.x);
+        _gotoPoint = _rigidbody.position + new Vector2(reverseVelocity_X, 1) * 1000; // * 1000 so it's far away
+        
+        _pursuing = false;
+        _fleeing = true;
+        _hiding = false;
     }
 
     public override void PursuitBehavior()
     {
-        if(_dropping)
+        if (_dropping)
         {
-            RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, Vector2.up, DistanceDropsFromCeiling, _physicsLayer);
-
-            if(!hit)
-            {
-                _dropping = false;
-                _rigidbody.gravityScale = 0;
-            }
+            StartFlyingIfFallenFarEnough();
         }
         else
         {
-            FaceTarget();
             MoveForward();
+        }
+    }
+
+    private void StartFlyingIfFallenFarEnough()
+    {
+        RaycastHit2D hit = Physics2D.Raycast( gameObject.transform.position
+                                            , Vector2.up
+                                            , DistanceDropsFromCeiling
+                                            , _physicsLayer);
+
+        if ( !hit )
+        {
+            _dropping = false;
+            _rigidbody.gravityScale = 0;
+            _animator.SetBool("Flying", true);
         }
     }
 
@@ -117,14 +155,22 @@ public class BatAI2 : BaseEnemyAI
 
     public override void SetTarget(GameObject target)
     {
-        if( target != null 
-            && _timeHiding + TimeHidesBeforePursuing < Time.time 
-            && !_fleeing )
+        if ( target != null
+             && DoneHiding
+             && _hiding )
         {
-            _rigidbody.gravityScale = 1;
-            _dropping = true;
-            _hiding = false;
-            base.SetTarget(target);
+            Drop();
+            base.SetTarget( target );
         }
     }
+
+    private void Drop()
+    {
+        _rigidbody.gravityScale = 1;
+        _dropping = true;
+        _hiding = false;
+    }
+
+    private bool DoneHiding
+        => _timeStopsHiding < Time.time;
 }

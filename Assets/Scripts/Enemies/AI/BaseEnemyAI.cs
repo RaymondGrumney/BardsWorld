@@ -129,7 +129,12 @@ public abstract class BaseEnemyAI : MonoBehaviour
 	// when the last choice was made
 	protected float nextRandomChoice = 0f;
 
+	/// <summary>
+	/// Whether the enemy AI is active
+	/// </summary>
 	private bool _active = true;
+
+	protected Animator _animator;
 
 	// Use this for initialization
 	protected virtual void Awake () 
@@ -150,10 +155,11 @@ public abstract class BaseEnemyAI : MonoBehaviour
 
 		_rigidbody = GetComponent<Rigidbody2D>();
 		_collider = GetComponent<Collider2D>();
+		_animator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
-	protected virtual void Update () 
+	protected virtual void Update() 
 	{
 		if (_active)
 		{

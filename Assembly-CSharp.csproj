@@ -86,7 +86,7 @@
     <Compile Include="Assets\FacesPlayer.cs" />
     <Compile Include="Assets\Scripts\DefaultValues.cs" />
     <Compile Include="Assets\Scripts\Enemies\AI\BaseEnemyAI.cs" />
-    <Compile Include="Assets\Scripts\Enemies\AI\BatAI2.cs" />
+    <Compile Include="Assets\Scripts\Enemies\AI\BatAI.cs" />
     <Compile Include="Assets\Scripts\Enemies\AI\BlobAI.cs" />
     <Compile Include="Assets\Scripts\Enemies\AI\Cockroach.cs" />
     <Compile Include="Assets\Scripts\Enemies\AI\GuardAI.cs" />
