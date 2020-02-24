@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatAI : BaseEnemyAI {
+public class BatAIOld : BaseEnemyAI {
 
 	[Header("Bat AI Settings")]
 	[Tooltip("How high we fly.")]
