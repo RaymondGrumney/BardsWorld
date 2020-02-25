@@ -23,17 +23,27 @@ public class Shield : MonoBehaviour
 
     private float ShieldDownUntil = 0;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if ( Time.time > ShieldDownUntil && collision.CompareTag("Attack") )
+        Block(other.gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Block(other.gameObject);
+    }
+
+    private void Block(GameObject gobb)
+    {
+        if (Time.time > ShieldDownUntil && gobb.CompareTag("Attack"))
         {
-            Easily.Knock(collision).Back(knockBackForce).From(gameObject).StunningFor(stunLength);
+            Easily.Knock(gobb).Back(knockBackForce).From(gameObject).StunningFor(stunLength);
             Easily.Knock(GetComponentInParent<Rigidbody2D>())
                   .Back(selfKnockBackForce)
-                  .From(collision)
+                  .From(gobb)
                   .StunningFor(selfStunLength);
 
-            collision.SendMessage("DisableDamage");
+            gobb.SendMessage("DisableDamage");
 
             // Play Impact Sound
             SoundHelper.Play(impactSound, transform.position);
