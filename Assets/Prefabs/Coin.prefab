@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4541726893448964}
   - component: {fileID: 212168253685580090}
-  - component: {fileID: 114437922783308668}
   - component: {fileID: 58953500121411868}
+  - component: {fileID: 114437922783308668}
+  - component: {fileID: 5825568772622412628}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -72,7 +73,8 @@ SpriteRenderer:
   m_SortingLayerID: -497963441
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300032, guid: 010c85dec2275f642afe5d73d8edaab7, type: 3}
+  m_Sprite: {fileID: 5804180291132990712, guid: 6d91800ba2516a14786b72eb741b0c58,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -83,20 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &114437922783308668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1354316585154154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc7b5b7c5ad27da46805fd610ddfbbc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onPickupSFX: {fileID: 8300000, guid: 5adaca0f2408d8f49a8fdd1542459b2f, type: 3}
-  rotationSpeed: 2.5
 --- !u!58 &58953500121411868
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -113,3 +101,29 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.011238098}
   serializedVersion: 2
   m_Radius: 0.676384
+--- !u!114 &114437922783308668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354316585154154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc7b5b7c5ad27da46805fd610ddfbbc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 2.5
+--- !u!114 &5825568772622412628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354316585154154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fa5425de02a3b1488f0f8ee0d416590, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onPickupSFX: {fileID: 0}

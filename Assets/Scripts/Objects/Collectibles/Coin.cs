@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : Collectible {
+public class Coin : MonoBehaviour {
 
-	/// <summary>
-	/// The session controller for this level.
-	/// </summary>
-	//	private Level _level;
+	[Tooltip("How fast the coin rotates.")]
 	public float rotationSpeed = 2;
 
-	void Awake() {
+	void Awake() 
+	{
 //		_level = GameObject.Find( "Level Info" ).GetComponent<Level>();
 	}
 
@@ -19,9 +17,9 @@ public class Coin : Collectible {
 		transform.Rotate(0, rotationSpeed, 0);
 	}
 
-	protected override void collect(GameObject other)
+	public void Collect(GameObject other)
 	{
-		// TODO: this
+		// TODO: this?
 //		_level.addCollectible(this);
 	}
 }
