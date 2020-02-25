@@ -28,6 +28,7 @@ public class DealsDamage : MonoBehaviour
 
 	public bool OnTrigger = true;
 	public bool OnCollision = false;
+	public string OnlyDamagesThisTag = null;
 
 	public GameObject spawnedBy;
 
@@ -64,23 +65,26 @@ public class DealsDamage : MonoBehaviour
 		// wait until end of frame. This allows shield to disable damage
 		yield return new WaitForEndOfFrame();
 
-		// deal damage
-		if ( !damageDisabled )
-		{
-			Easily.PlaySound(impactSound, transform.position);
-			Easily.Knock(other).Back(knockBackForce).From(gameObject).StunningFor(StunTime);
+		if(OnlyDamagesThisTag == null || other.CompareTag( OnlyDamagesThisTag ))
+		{	
+			// deal damage
+			if (!damageDisabled)
+			{
+				Easily.PlaySound(impactSound, transform.position);
+				Easily.Knock(other).Back(knockBackForce).From(gameObject).StunningFor(StunTime);
 
-			// Spawn object at spawnPoint or, if none defined at the center of this object
-			SpawnObject();
+				// Spawn object at spawnPoint or, if none defined at the center of this object
+				SpawnObject();
 
-			other.SendMessage("TakeDamage", damage);
-			other.SendMessage("ThisHurtYou", spawnedBy);
-		}
+				other.SendMessage("TakeDamage", damage);
+				other.SendMessage("ThisHurtYou", spawnedBy);
+			}
 
-		// destroy if destroyOnImpact
-		if (destroyOnImpact) 
-		{
-			Destroy( this.gameObject ); // TODO: Move this into it's own script
+			// destroy if destroyOnImpact
+			if (destroyOnImpact)
+			{
+				Destroy(this.gameObject); // TODO: Move this into it's own script
+			}
 		}
 	}
 
