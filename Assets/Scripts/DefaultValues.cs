@@ -6,6 +6,7 @@ internal class DefaultValues
     /// The Standard Timeout for inputs
     /// </summary>
     public static float StandardTimeOut = 3;
+    public static float MediumProjectileVelocity = 8;
 
     /// <summary>
     /// The standard Knockback value
