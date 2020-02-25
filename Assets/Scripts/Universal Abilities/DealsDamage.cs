@@ -29,7 +29,7 @@ public class DealsDamage : MonoBehaviour
 	public bool OnTrigger = true;
 	public bool OnCollision = false;
 	public string OnlyDamagesThisTag = null;
-
+ 
 	public GameObject spawnedBy;
 
 	// the two following method handle both the cases that the damage dealing object uses either:
@@ -65,7 +65,7 @@ public class DealsDamage : MonoBehaviour
 		// wait until end of frame. This allows shield to disable damage
 		yield return new WaitForEndOfFrame();
 
-		if(OnlyDamagesThisTag == null || other.CompareTag( OnlyDamagesThisTag ))
+		if(string.IsNullOrWhiteSpace(OnlyDamagesThisTag) || other.CompareTag( OnlyDamagesThisTag ))
 		{	
 			// deal damage
 			if (!damageDisabled)
