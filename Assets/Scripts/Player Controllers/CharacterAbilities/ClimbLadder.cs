@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using CommonAssets.Utilities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -66,21 +67,21 @@ public class ClimbLadder : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void LateUpdate () {
-
-		// if in the ladder layer and not carrying anything
-		if ( _character.gameObject.layer == ladderLayer && !_grabAndCarry.carrying ) {
-				
-			// 
-			if ( _character.InputCheck() && _character.CanMove ) {
-
+	void LateUpdate ()
+	{
+		if ( _character.gameObject.layer == ladderLayer ) 
+		{		
+			if ( _character.InputCheck() && _character.CanMove ) 
+			{
 				_rigidbody.gravityScale = 0;
 				_character.Animator.SetBool( "Climbing", true );
 
 				float v = Joypad.Read.Buttons.vertical;
 				_rigidbody.velocity = new Vector2( _rigidbody.velocity.x, v * climbSpeed );
 			}
-		} else {
+		} 
+		else 
+		{
 			_character.Animator.SetBool( "Climbing", false );
 		}
 	}
@@ -90,57 +91,36 @@ public class ClimbLadder : MonoBehaviour {
 	/// Sets the layer of this object and it's children
 	/// </summary>
 	/// <param name="layer">Layer.</param>
-	void setLayer(int layer)
+	void SetLayer(int layer)
 	{
-		
-
 		// set this gameObject's layer
 		gameObject.layer = layer;
 
 		// set gravity
-		if (layer == ladderLayer) {
+		if (layer == ladderLayer) 
+		{
 			_rigidbody.gravityScale = 0;
-		} else {
+		} 
+		else 
+		{
 			_rigidbody.gravityScale = _initialGravityScale;
 		}
 
-
 		// set each child object's layer
-		for( int i = 0; i < transform.childCount; i++ ) {
+		for( int i = 0; i < transform.childCount; i++ ) 
+		{
 			GameObject g = transform.GetChild( i ).gameObject;
 			g.layer = layer;
 		}
 	}
 
-	// when on a trigger
-	void OnTriggerStay2D(Collider2D other) {
-
-		// TODO: it would be more efficient to move this to the ladder object, since it will have few OnTriggerStay2D events to check
-
+	void OnTriggerExit2D(Collider2D other) 
+	{
 		LadderZone ladder = other.GetComponent<LadderZone>();
 
-		if ( ladder && _character.gameObject.layer != ladderLayer ) {
-
-			if (verticalInput()) {
-				//_holdExitTrigger = true;
-				setLayer( ladderLayer );
-			}
-
-		} else if( _character.gameObject.layer == ladderLayer ){
-			// setLayer( _initialPhysicsLayer );
-
+		if (ladder)
+		{
+			SetLayer(_initialPhysicsLayer);
 		}
 	}
-
-	void OnTriggerExit2D(Collider2D other) {
-
-		LadderZone ladder = other.GetComponent<LadderZone>();
-
-		if (ladder) {
-			setLayer( _initialPhysicsLayer );
-		}
-	}
-
-	bool verticalInput()
-		=> Joypad.Read.Buttons.Held("vertical");
 }
