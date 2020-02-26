@@ -56,7 +56,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5961958328514384914}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.11, y: -0.023, z: 0}
+  m_LocalPosition: {x: 0.09, y: -0.023, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5960295223716296064}
@@ -87,7 +87,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.02425003, y: -2.7614145}
+  m_Offset: {x: -0.032302856, y: -2.7614145}
   m_SpriteTilingProperty:
     border: {x: 1.49, y: 1.12, z: 0.5, w: 1.54}
     pivot: {x: 0.5, y: 0.5}
@@ -98,7 +98,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5795822, y: 0.36250496}
+  m_Size: {x: 1.598999, y: 0.36250496}
   m_EdgeRadius: 0
 --- !u!1 &5961982561373112074
 GameObject:
@@ -473,7 +473,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.007911682, y: 0.0047416687}
@@ -503,6 +503,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockBackForce: {x: 8, y: 1.5}
   stunLength: 0.25
+  selfKnockBackForce: {x: 3, y: 1}
+  selfStunLength: 0.1
   impactSound: {fileID: 8300000, guid: dcba2974760ab8a4ebded71ee500f109, type: 3}
 --- !u!212 &963812092125226754
 SpriteRenderer:

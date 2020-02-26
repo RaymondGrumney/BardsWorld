@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5180349636875471932}
   - component: {fileID: 7528850424838405030}
   - component: {fileID: -6927970492003188322}
+  - component: {fileID: -7580546451947663215}
   m_Layer: 0
   m_Name: Fireball
   m_TagString: Attack
@@ -216,3 +217,16 @@ MonoBehaviour:
   pieceMass: 1
   force: 1
   unitFadeOutTimeInSeconds: 1
+--- !u!114 &-7580546451947663215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395118431842570415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a149abc3b5dd904db85d1110e0ade67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DestructiveScript: {fileID: 11500000, guid: b9daf63aa8c635243bde38a4564d90ff, type: 3}
