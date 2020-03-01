@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoubleJump : MakesNoise {
-
+public class DoubleJump : MakesNoise 
+{
+	[Tooltip("How much power is a second jump")]
 	public float doubleJumpPower;
 
 	private bool _doubleJumped = false;
@@ -25,17 +26,23 @@ public class DoubleJump : MakesNoise {
 
 
 	// Update is called once per frame
-	void Update () {
-		
-		if ( !_character.Grounded && !_doubleJumped  && Joypad.Read.Buttons.Pressed("jump") ) {
+	void Update () 
+	{	
+		if ( !_character.Grounded 
+		  && !_doubleJumped 
+		  && Joypad.Read.Buttons.Pressed("jump") 
+		  && !Joypad.Read.Buttons.Held("down")) 
+		{
 			// can't double jump if carrying an object
-			if (_grabAndCarry) {
-				if( !_grabAndCarry.carrying) {
+			if (_grabAndCarry) 
+			{
+				if( !_grabAndCarry.carrying )
+				{
 					doubleJump();
 				}
-			} else {
-
-				// if there's no grab and carry script attached, we can always double jump
+			} 
+			else 
+			{
 				doubleJump();
 			}
 		}
