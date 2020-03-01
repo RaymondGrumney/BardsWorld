@@ -84,8 +84,10 @@
     <Compile Include="Assets\Common\CommonAssets\Utilities\SpriteEffect\Fader.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\SpriteEffect\FaderComponent.cs" />
     <Compile Include="Assets\Common\CommonAssets\Utilities\SpriteEffect\SpriteEffects.cs" />
+    <Compile Include="Assets\DestroysTerrain.cs" />
     <Compile Include="Assets\FacesPlayer.cs" />
     <Compile Include="Assets\FiresEveryNSeconds.cs" />
+    <Compile Include="Assets\JumpDown.cs" />
     <Compile Include="Assets\New Controls.cs" />
     <Compile Include="Assets\Projectile.cs" />
     <Compile Include="Assets\Scripts\DefaultValues.cs" />
