@@ -19,6 +19,17 @@ public class ButtonObj : MonoBehaviour {
 	/// </summary>
 	public float additionalDrag;
 
+	public bool staysActivated = true;
+	private bool _activated = false;
+
+	private void OnDrawGizmos()
+	{
+		foreach(GameObject t in target)
+		{
+			Gizmos.DrawLine(transform.position, t.transform.position);
+		}
+	}
+
 
 	// when an object enters the trigger, add its mass
 	void OnTriggerEnter2D(Collider2D other){
@@ -54,8 +65,14 @@ public class ButtonObj : MonoBehaviour {
 
 	protected void notifyTargets(bool state)
 	{
-		for( int i = 0; i < target.Length; i++ ) {
-			target[ i ].GetComponent<ButtonTarget>().Activate( state );
+		if( !(staysActivated && _activated) )
+		{
+			for (int i = 0; i < target.Length; i++)
+			{
+				target[i].GetComponent<ButtonTarget>().Activate(state);
+			}
+
+			_activated = true;
 		}
 	}
 }

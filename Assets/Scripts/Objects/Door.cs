@@ -51,17 +51,16 @@ public class Door : ButtonTarget {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
-		if (_activated) {
+	void Update () 
+	{
+		if (_activated) 
+		{
 			Vector2 openPosition = _initialPosition + openOffset;
-
 			moveTo( openPosition );
-
-		} else {
-
+		} 
+		else 
+		{
 			moveTo( _initialPosition );
-
 		}
 	}
 
@@ -87,7 +86,8 @@ public class Door : ButtonTarget {
 		}
 	}
 
-	public override void Activate(bool state) {
+	public override void Activate(bool state) 
+	{
 		_activated = state;
 	}
 }
